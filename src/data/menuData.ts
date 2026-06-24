@@ -15,6 +15,7 @@ import atmasphere1 from '../assets/atmasphere1.png';
 import atmasphere2 from '../assets/atmasphere2.png';
 import atmasphere3 from '../assets/atmasphere3.png';
 import br from '../assets/br.png';
+import chichivit from '../assets/chichivit.png';
 
 
 
@@ -415,6 +416,23 @@ export const products: Product[] = [
     calories: 410,
     weight: '350g',
   },
+  {
+  id: 'sp8',
+  name: "Chichivitsa sho'rva",
+  nameUz: "Chichivitsa sho'rva",
+  nameRu: 'Чечевичный суп',
+  category: 'soups',
+  image: chichivit,
+  description: 'Hearty lentil soup with lemon and traditional spices',
+  descriptionUz: "Yasmiq (chechevitsa) va limon bilan tayyorlanadigan to'yimli turkcha sho'rva",
+  descriptionRu: 'Сытный чечевичный суп с лимоном и традиционными специями',
+  ingredients: ['Red Lentils', 'Onion', 'Carrot', 'Cumin', 'Lemon', 'Mint'],
+  ingredientsUz: ['Qizil yasmiq', 'Piyoz', 'Sabzi', 'Zira', 'Limon', 'Yalpiz'],
+  ingredientsRu: ['Красная чечевица', 'Лук', 'Морковь', 'Зира', 'Лимон', 'Мята'],
+  price: 30000,
+  calories: 270,
+  weight: '350g',
+},
 
 
   // Frozen Soups
