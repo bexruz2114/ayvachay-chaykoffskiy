@@ -19,10 +19,10 @@ export default function ContactSection() {
         {/* Section Header */}
         <div className="text-center mb-10">
           <span className="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 text-sm font-medium rounded-full mb-4">
-            {t('Bog\'lanish', 'Связаться')}
+            {t("Bog'lanish", "Связаться")}
           </span>
           <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-3">
-            {t('Biz bilan bog\'laning', 'Свяжитесь с нами')}
+            {t("Biz bilan bog'laning", "Свяжитесь с нами")}
           </h2>
         </div>
 
@@ -36,7 +36,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">
-                  {t('Manzil', 'Адрес')}
+                  {t("Manzil", "Адрес")}
                 </h3>
                 <p className="text-gray-600">
                   {getAddress()}
@@ -51,7 +51,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">
-                  {t('Telefon', 'Телефон')}
+                  {t("Telefon", "Телефон")}
                 </h3>
                 <a
                   href={`tel:${cafeInfo.phone}`}
@@ -69,7 +69,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">
-                  {t('Ish vaqti', 'Время работы')}
+                  {t("Ish vaqti", "Время работы")}
                 </h3>
                 <p className="text-gray-600">
                   {getWorkingHours()}
@@ -80,7 +80,7 @@ export default function ContactSection() {
             {/* Social Links */}
             <div className="flex items-center gap-4 mt-4">
               <a
-                href={cafeInfo.instagram}
+                href={(cafeInfo as any).instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white rounded-xl font-medium hover:shadow-lg transition-all hover:scale-105"
@@ -91,7 +91,7 @@ export default function ContactSection() {
                 Instagram
               </a>
               <a
-                href={cafeInfo.telegram}
+                href={(cafeInfo as any).telegram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-5 py-3 bg-[#2481cc] text-white rounded-xl font-medium hover:shadow-lg transition-all hover:scale-105"

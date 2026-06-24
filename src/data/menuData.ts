@@ -3,25 +3,28 @@ import qoziqorn from '../assets/qoziqorn.png';
 import pishloqli from '../assets/pishloqli.png';
 import shi from '../assets/shi.png';
 import makka from '../assets/makka.png';
-import borsh from '../assets/borhs.png'; // Fayl nomi qanday bo'lsa shunday qoldi
-import chichivitsa from '../assets/chichivitsa.png';  
+import borsh from '../assets/borhs.png';
+import chichivitsa from '../assets/chichivitsa.png';
 import lapsha from '../assets/lapsha.png';
-import soup1 from "../assets/soup1.png";
-import soup2 from '../assets/soup2.png';
-import soup3 from '../assets/soup3.png';
-import soup4 from '../assets/soup4.png';
-import soup5 from '../assets/soup5.png';
-import soup6 from '../assets/soup6.png';
-import soup7 from '../assets/soup7.png';
-import soup8 from '../assets/soup8.png';
 import ayva from '../assets/ayva.png';
 import ayva2 from '../assets/ayva2.png';
 import ayva3 from '../assets/ayva3.png';
 import callogen2 from '../assets/callogen2.png';
 import map from '../assets/map.png';
-import atmasphere1 from '../assets/atmasphere1.png'; // atmasphere1.png deb aniqlashtirildi
+import atmasphere1 from '../assets/atmasphere1.png';
 import atmasphere2 from '../assets/atmasphere2.png';
 import atmasphere3 from '../assets/atmasphere3.png';
+import br from '../assets/br.png';
+
+
+
+import is from '../assets/is.png';
+import lap from '../assets/lap.png';
+import mk from '../assets/mk.png';
+import pish from '../assets/pish.png';
+import qz from '../assets/qz.png';
+import shii from '../assets/shii.png';
+
 
 export interface Product {
   id: string;
@@ -52,199 +55,252 @@ export interface Category {
 }
 
 export const categories: Category[] = [
-  { id: 'drinks', name: 'Drinks', nameUz: 'Ichimliklar', nameRu: 'Напитки', icon: '☕' },
+   { id: 'ayva-products', name: 'Ayva Products', nameUz: 'Ayva mahsulotlari', nameRu: 'Aйва продукты', icon: '🍐' },
   { id: 'soups', name: 'Soups', nameUz: "Sho'rvalar", nameRu: 'Супы', icon: '🥣' },
-  // "Muzlatilgan-sho'rvalar" o'rniga "Muzlatilgan" yoki "Yarim tayyor" deb yozamiz:
-  { id: 'frozen-soups', name: 'Frozen', nameUz: 'Muzlatilgan', nameRu: 'Замороженные', icon: '❄️' },
-  { id: 'ayva-products', name: 'Quince', nameUz: 'Ayva taomlari', nameRu: 'Блюда из айвы', icon: '🍐' },
-  { id: 'bread', name: 'Bread', nameUz: 'Non mahsulotlari', nameRu: 'Хлеб', icon: '🍞' },
-  { id: 'specials', name: 'Specials', nameUz: 'Maxsus', nameRu: 'Особые', icon: '🍴' },
+  { id: 'frozen-soups', name: 'Frozen Soups', nameUz: 'Muzlatilgan', nameRu: 'Замороженные', icon: '❄️' },
+   { id: 'specials', name: 'Specials', nameUz: 'Maxsus takliflar', nameRu: 'Специальные предложения', icon: '🍴' },
+  { id: 'choylar', name: 'Teas', nameUz: 'Choylar', nameRu: 'Чай', icon: '🫖' },
+  { id: 'cocktails', name: 'Cocktails', nameUz: 'Kokteyllar', nameRu: 'Коктейли', icon: '🥤' },
+  { id: 'mojitos', name: 'Mojitos', nameUz: 'Moxitolar', nameRu: 'Мохито', icon: '🍹' },
+  { id: 'kvas', name: 'Kvas', nameUz: 'Kvaslar', nameRu: 'Квас', icon: '🍺' },
+  { id: 'bread', name: 'Bread', nameUz: 'Non', nameRu: 'Хлеб', icon: '🍞' },
+ 
 ];
+
+// Внутренний список чаев с вашими ценами и пометкой isChoynak
+const teaList = [
+  { id: 'ch26', uz: 'Karak choyi', ru: 'Чай Карак', en: 'Karak Tea', price: 70000, isChoynak: true },
+  { id: 'ch5', uz: 'Lavanda choyi', ru: 'Лавандовый чай', en: 'Lavender Tea', price: 60000, isChoynak: true },
+  { id: 'ch9', uz: 'Karkade choyi', ru: 'Чай Каркаде', en: 'Karkade Tea', price: 50000, isChoynak: true },
+  { id: 'ch1', uz: 'Olong choyi', ru: 'Молочный Оолонг', en: 'Milk Olong Tea', price: 60000, isChoynak: true, popular: true },
+  { id: 'ch11', uz: 'Malina choyi', ru: 'Малиновый чай', en: 'Raspberry Tea', price: 50000, isChoynak: true, popular: true },
+  { id: 'ch3', uz: 'Limon imbir choyi', ru: 'Лимон имбирь', en: 'Lemon Ginger Tea', price: 50000, isChoynak: true, popular: true },
+  { id: 'ch2', uz: 'Fruktoviy miks choyi', ru: 'Фруктовый микс', en: 'Fruit Mix Tea', price: 60000, isChoynak: true },
+  { id: 'ch13', uz: 'Jasmin choyi', ru: 'Жасминовый чай', en: 'Jasmine Tea', price: 50000, isChoynak: true },
+  { id: 'ch6', uz: 'Rastaropsha choyi', ru: 'Чай Расторопша', en: 'Milk Thistle Tea', price: 45000, isChoynak: true },
+  { id: 'ch7', uz: 'Bardak choyi', ru: 'Чай Бардак', en: 'Turkish Bardak Tea', price: 60000, isChoynak: true },
+
+  // Остальные чаи из старого списка
+  { id: 'ch4', uz: 'Romashka choyi', ru: 'Ромашковый чай', en: 'Chamomile Tea', price: 45000 },
+  { id: 'ch8', uz: 'Moxito choyi', ru: 'Мохито чай', en: 'Mojito Tea', price: 50000 },
+  { id: 'ch10', uz: 'Karal choyi', ru: 'Королевский чай', en: 'Royal Karal Tea', price: 60000 },
+  { id: 'ch12', uz: 'Oddiy Ahmad choyi', ru: 'Чай Ахмад', en: 'Classic Ahmad Tea', price: 20000 },
+  { id: 'ch14', uz: 'Kardamon choyi', ru: 'Чай с кардамоном', en: 'Cardamom Tea', price: 40000 },
+  { id: 'ch15', uz: "Avg'on choyi", ru: 'Афганский чай', en: 'Afghan Tea', price: 40000 },
+  { id: 'ch16', uz: 'Chaykoffskiy choyi', ru: 'Чай Чайковский', en: 'Chaykoffskiy Special Tea', price: 80000, popular: true },
+  { id: 'ch17', uz: 'Sutli choy', ru: 'Чай с молоком', en: 'Milk Tea', price: 50000 },
+  { id: 'ch18', uz: 'Pistali sutli choy', ru: 'Фисташковый чай с молоком', en: 'Pistachio Milk Tea', price: 80000, popular: true },
+  { id: 'ch19', uz: 'Lechebniy choy', ru: 'Лечебный чай', en: 'Medicinal Tea', price: 50000 },
+  { id: 'ch20', uz: 'Tinchlantiruvchi choy', ru: 'Успокаивающий чай', en: 'Calming Tea', price: 50000 },
+  { id: 'ch21', uz: 'Zanjabil choyi', ru: 'Имбирный чай', en: 'Ginger Tea', price: 45000 },
+  { id: 'ch22', uz: 'Mumiyoli choy', ru: 'Чай с мумиё', en: 'Mumiyo Tea', price: 50000 },
+  { id: 'ch23', uz: 'Namatak choyi', ru: 'Чай с шиповником', en: 'Rosehip Tea', price: 45000 },
+  { id: 'ch24', uz: 'Barbaris choyi', ru: 'Барбарисовый чай', en: 'Barberry Tea', price: 50000 },
+  { id: 'ch25', uz: 'Koritsali choy', ru: 'Чай с корицей', en: 'Cinnamon Tea', price: 40000 }
+];
+
 export const products: Product[] = [
-  // Drinks
+  // ==================== CHOYLAR ====================
+  ...teaList.map(tea => ({
+    id: tea.id,
+    name: tea.en,
+    nameUz: tea.uz,
+    nameRu: tea.ru,
+    category: 'choylar',
+    image: '',
+    description: '',
+    descriptionUz: '',
+    descriptionRu: '',
+    ingredients: [],
+    ingredientsUz: [],
+    ingredientsRu: [],
+    price: tea.price,
+    weight: tea.isChoynak ? '1 choynak' : '1 porsion',
+    isPopular: tea.popular || false,
+  })),
+
+  // ==================== KOKTEYLLAR ====================
   {
-    id: 'dr1',
-    name: 'Malina choyi',
-    nameUz: 'Malina choyi',
-    nameRu: 'Малиновый чай',
-    category: 'drinks',
-    image: 'https://i.pinimg.com/736x/bc/3b/12/bc3b1256412b77574b5435d008841dc0.jpg',
-    description: 'Aromatic black tea infused with sweet wild raspberries and mint',
-    descriptionUz: "Shirin yovvoyi malina va yalpiz qo'shib damlangan xushbo'y qora choy",
-    descriptionRu: 'Ароматный черный чай с добавлением сладкой лесной малины и мяты',
-    ingredients: ['Black Tea', 'Raspberries', 'Mint', 'Honey', 'Water'],
-    ingredientsUz: ['Qora choy', 'Malina', 'Yalpiz', 'Asal', 'Suv'],
-    ingredientsRu: ['Черный чай', 'Малина', 'Мята', 'Мед', 'Вода'],
-    price: 50000,
-    calories: 65,
-    weight: '350ml',
-    isPopular: true,
+    id: 'cock1',
+    name: 'Power Cocktail',
+    nameUz: 'Quvvat cocktail',
+    nameRu: 'Энергетический коктейль',
+    category: 'cocktails',
+    image: '',
+    description: 'Energetic and refreshing milk drink',
+    descriptionUz: 'Stakanda taqdim etiladigan quvvat beruvchi mazali sutli ichimlik',
+    descriptionRu: 'Энергетический молочный напиток, подается в стакане',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 35000,
+    weight: '1 stakan'
   },
   {
-    id: 'dr2',
-    name: 'Limon imbir choyi',
-    nameUz: 'Limon imbir choyi',
-    nameRu: 'Лимон имбирный чай',
-    category: 'drinks',
-    image: 'https://womanadvice.ru/sites/default/files/imbir_med_limon_dlya_immuniteta_0.jpg.crop_display.jpg',
-    description: 'Warming immune-boosting tea with fresh ginger, lemon, and honey',
-    descriptionUz: "Yangi zanjabil (imbir), limon va asal bilan tayyorlangan isituvchi va immunitetni oshiruvchi choy",
-    descriptionRu: 'Согревающий чай для иммунитета со свежим имбирем, лимоном и медом',
-    ingredients: ['Fresh Ginger', 'Lemon', 'Honey', 'Green Tea', 'Water'],
-    ingredientsUz: ['Yangi zanjabil', 'Limon', 'Asal', 'Yashil choy', 'Suv'],
-    ingredientsRu: ['Свежий имбирь', 'Лимон', 'Мед', 'Зеленый чай', 'Вода'],
-    price: 50000,
-    calories: 45,
-    weight: '400ml',
-    isPopular: true,
+    id: 'cock2',
+    name: 'Banana Cocktail',
+    nameUz: 'Banana cocktail',
+    nameRu: 'Банановый коктейль',
+    category: 'cocktails',
+    image: '',
+    description: 'Sweet and rich banana smoothie blend',
+    descriptionUz: 'Yangi banan bo`laklaridan tayyorlangan shirin kokteyl',
+    descriptionRu: 'Сладкий коктейль из свежих бананов',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 30000,
+    weight: '1 stakan'
   },
   {
-    id: 'dr3',
-    name: 'Kardamon choyi',
-    nameUz: 'Kardamon choyi',
-    nameRu: 'Кардамонный чай',
-    category: 'drinks',
-    image: 'https://tse1.mm.bing.net/th/id/OIP.hMS_t6ZMXaqQLkldWVELCwHaHa?cb=thfvnextfalcon2&w=500&h=500&rs=1&pid=ImgDetMain&o=7&rm=3',
-    description: 'Exotic premium black tea blended with aromatic cardamom pods',
-    descriptionUz: "Xushbo'y kardamon urug'lari qo'shib damlangan ekstra toifali qora choy",
-    descriptionRu: 'Экзотический черный чай премиум-класса с ароматными цельными коробочками кардамона',
-    ingredients: ['Premium Black Tea', 'Cardamom Pods', 'Water'],
-    ingredientsUz: ['Oliy navli qora choy', 'Kardamon urug\'lari', 'Suv'],
-    ingredientsRu: ['Черный чай премиум', 'Кардамон', 'Вода'],
-    price: 40000,
-    calories: 5,
-    weight: '400ml',
-  },
-  {
-    id: 'dr4',
-    name: 'Jasmin choy',
-    nameUz: 'Jasmin choy',
-    nameRu: 'Жасминовый чай',
-    category: 'drinks',
-    image: 'https://chartreusetea.com/wp-content/uploads/2020/10/Green-teajasmin-480x479.png',
-    description: 'Delicate green tea naturally scented with fragrant jasmine blossoms',
-    descriptionUz: "Xushbo'y jasmin gullari bilan tabiiy ravishda boyitilgan nafis yashil choy",
-    descriptionRu: 'Нежный зеленый чай с натуральным ароматом душистых цветов жасмина',
-    ingredients: ['Green Tea', 'Jasmine Blossoms', 'Water'],
-    ingredientsUz: ['Yashil choy', 'Jasmin gullari', 'Suv'],
-    ingredientsRu: ['Зеленый чай', 'Цветы жасмина', 'Вода'],
-    price: 50000,
-    calories: 2,
-    weight: '400ml',
-    isPopular: true,
-  },
-  {
-    id: 'dr5',
-    name: 'Ramashka choyi',
-    nameUz: 'Ramashka choyi',
-    nameRu: 'Ромашковый чай',
-    category: 'drinks',
-    image: 'https://static.vecteezy.com/system/resources/previews/043/349/752/large_2x/tea-with-beautiful-flower-isolated-on-white-background-free-photo.jpg',
-    description: 'Soothing caffeine-free herbal infusion made from natural chamomile flowers',
-    descriptionUz: "Tabiiy moychechak (ramashka) gullaridan tayyorlangan kofeinsiz tinchlantiruvchi giyohli choy",
-    descriptionRu: 'Успокаивающий травяной чай без кофеина из натуральных цветков ромашки',
-    ingredients: ['Chamomile Flowers', 'Water'],
-    ingredientsUz: ['Moychechak gullari', 'Suv'],
-    ingredientsRu: ['Цветки ромашки', 'Вода'],
-    price: 45000,
-    calories: 2,
-    weight: '350ml',
-    isNew: true,
-  },
-  {
-    id: 'dr6',
-    name: 'Karkade choyi',
-    nameUz: 'Karkade choyi',
-    nameRu: 'Чай каркаде',
-    category: 'drinks',
-    image: 'https://img.freepik.com/premium-photo/hibiscus-tea-flower-dry-blossom-isolated-white-background_35691-20438.jpg',
-    description: 'Tart and refreshing ruby-red tea brewed from dried hibiscus petals',
-    descriptionUz: "Quritilgan gibiskus (karkade) gullaridan tayyorlangan nordon va tetiklashtiruvchi yoqut rangli choy",
-    descriptionRu: 'Терпкий и освежающий рубиново-красный чай из сушеных лепестков гибискуса',
-    ingredients: ['Hibiscus Petals', 'Water', 'Optional Sugar'],
-    ingredientsUz: ['Karkade gullari', 'Suv', "Xohishga ko'ra shakar"],
-    ingredientsRu: ['Лепестки гибискуса', 'Вода', 'Сахар по желанию'],
-    price: 50000,
-    calories: 15,
-    weight: '400ml',
-  },
-  {
-    id: 'dr7',
-    name: 'Lavanda choyi',
-    nameUz: 'Lavanda choyi',
-    nameRu: 'Лавандовый чай',
-    category: 'drinks',
-    image: 'https://png.pngtree.com/png-clipart/20240323/original/pngtree-herbal-tea-in-cup-png-image_14659480.png',
-    description: 'Calming herbal tea with a delightful floral aroma of French lavender',
-    descriptionUz: "Fransuz lavandasining yoqimli gul iforiga ega tinchlantiruvchi giyohli choy",
-    descriptionRu: 'Успокаивающий травяной чай с восхитительным цветочным ароматом французской лаванды',
-    ingredients: ['Lavender Buds', 'Mint', 'Water'],
-    ingredientsUz: ['Lavanda gullari', 'Yalpiz', 'Suv'],
-    ingredientsRu: ['Бутоны лаванды', 'Мята', 'Вода'],
-    price: 50000,
-    calories: 2,
-    weight: '350ml',
-  },
-  {
-    id: 'dr8',
-    name: 'Karak choy',
-    nameUz: 'Karak choy',
-    nameRu: 'Чай карак',
-    category: 'drinks',
-    image: 'https://tse2.mm.bing.net/th/id/OIP.VuqIrwNkDT_sxwU1JKaSmwHaHa?cb=thfvnextfalcon2&rs=1&pid=ImgDetMain&o=7&rm=3',
-    description: 'Traditional strong Arabian spiced tea slowly simmered with milk',
-    descriptionUz: "Sut bilan past olovda uzoq qaynatilgan an'anaviy quyuq arab ziravorli choyi",
-    descriptionRu: 'Традиционный крепкий арабский чай со специями, медленно сваренный с молоком',
-    ingredients: ['Black Tea', 'Evaporated Milk', 'Cardamom', 'Saffron', 'Sugar'],
-    ingredientsUz: ['Qora choy', 'Quyuqlashtirilgan sut', 'Kardamon', 'Zafarshod (shafran)', 'Shakar'],
-    ingredientsRu: ['Черный чай', 'Концентрированное молоко', 'Кардамон', 'Шафран', 'Сахар'],
-    price: 60000,
-    calories: 140,
-    weight: '300ml',
-  },
-  {
-    id: 'dr9',
-    name: 'Rastaropsha choyi',
-    nameUz: 'Rastaropsha choyi',
-    nameRu: 'Чай из расторопши',
-    category: 'drinks',
-    image: 'https://thfvnext.bing.com/th/id/R.f1c9c95b586b34ac68f9a0dd2ebbbd0f?rik=SoXE%2byVsxxh6WA&riu=http%3a%2f%2fwww.biaplant.ro%2frepository%2ffiles%2fac9ef330988503761fd305d151d5b891.jpg&ehk=%2bzyM8th5jYw0F7Y1m1G90ud3xJfmZk6l%2foOmPwlpHn4%3d&risl=&pid=ImgRaw&r=0',
-    description: 'Healthy herbal tea from milk thistle, well-known for liver detox support',
-    descriptionUz: "Jigar faoliyatini yaxshilash va organizmni tozalash xususiyatiga ega shifobaxsh rastaropsha (qushqo'nmas) choyi",
-    descriptionRu: 'Целебный травяной чай из расторопши, известный своими свойствами детоксикации печени',
-    ingredients: ['Milk Thistle Seeds', 'Water'],
-    ingredientsUz: ['Rastaropsha urug\'lari', 'Suv'],
-    ingredientsRu: ['Семена расторопши', 'Вода'],
-    price: 45000,
-    calories: 4,
-    weight: '350ml',
-  },
-  {
-    id: 'dr10',
-    name: 'Chaykoffskiy choy',
-    nameUz: 'Chaykoffskiy choy',
-    nameRu: 'Чай Чайковский',
-    category: 'drinks',
-    image: 'https://tse3.mm.bing.net/th/id/OIP.o20SqRi3rqW6a7t-go0frAHaGm?cb=thfvnextfalcon2&w=1024&h=912&rs=1&pid=ImgDetMain&o=7&rm=3',
-    description: 'Signature rich blend of black tea, wild berries, and special citrus notes',
-    descriptionUz: "Qora choy, yovvoyi mevalar va maxsus sitrus mevalaridan tayyorlangan mualliflik choyi",
-    descriptionRu: 'Фирменный насыщенный бленд черного чая, лесных ягод и особых цитрусовых ноток',
-    ingredients: ['Black Tea', 'Wild Berries', 'Orange Slices', 'Mint', 'Water'],
-    ingredientsUz: ['Qora choy', 'Yovvoyi mevalar', 'Apelsin bo\'laklari', 'Yalpiz', 'Suv'],
-    ingredientsRu: ['Черный чай', 'Лесные ягоды', 'Дольки апельсина', 'Мята', 'Вода'],
-    price: 80000,
-    calories: 35,
-    weight: '400ml',
+    id: 'cock3',
+    name: 'Oreo Cocktail',
+    nameUz: 'Oreo cocktail',
+    nameRu: 'Коктейль Орео',
+    category: 'cocktails',
+    image: '',
+    description: 'Creamy milkshake mixed with crunchy Oreo cookies',
+    descriptionUz: 'Oreo pechenyelari va quyuq qaymoq uyg`unligi',
+    descriptionRu: 'Сливочный молочный коктейль с хрустящим печеньем Орео',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 30000,
+    weight: '1 stakan'
   },
 
-  // Soups
+  // ==================== MOXITOLAR ====================
+  {
+    id: 'mo1',
+    name: 'Ocean Mojito 1L',
+    nameUz: 'Okean moxito (Grafin 1L)',
+    nameRu: 'Океан мохито (Графин 1л)',
+    category: 'mojitos',
+    image: '',
+    description: 'Refreshing blue ocean mojito in 1L pitcher',
+    descriptionUz: 'Yalpiz va laym bilan tetiklashtiruvchi 1 litrlik moviy moxito',
+    descriptionRu: 'Освежающий голубой мохито в графине объемом 1 литр',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 45000,
+    weight: '1L'
+  },
+  {
+    id: 'mo2',
+    name: 'Classic Mojito',
+    nameUz: 'Klassik moxito',
+    nameRu: 'Классический мохито',
+    category: 'mojitos',
+    image: '',
+    description: 'Traditional mint and lime refreshing drink',
+    descriptionUz: 'An`anaviy yalpizli va laymli moxito ichimligi',
+    descriptionRu: 'Традиционный освежающий напиток с мятой и лаймом',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 45000,
+    weight: '1L'
+  },
+  {
+    id: 'mo3',
+    name: 'Pistachio Mojito',
+    nameUz: 'Pistali moxito',
+    nameRu: 'Фисташковый мохито',
+    category: 'mojitos',
+    image: '',
+    description: 'Unique mojito with rich pistachio flavor twist',
+    descriptionUz: 'Pista ta`mi va yalpiz uyg`unligidagi ajoyib moxito',
+    descriptionRu: 'Необычный мохито с насыщенным фисташковым вкусом',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 45000,
+    weight: '1L'
+  },
+  {
+    id: 'mo4',
+    name: 'Barberry Mojito',
+    nameUz: 'Barbaris moxito',
+    nameRu: 'Барбарисовый мохито',
+    category: 'mojitos',
+    image: '',
+    description: 'Sweet and sour barberry infused mojito',
+    descriptionUz: 'Yoqimli nordon barbaris ta`miga ega moxito',
+    descriptionRu: 'Кисло-сладкий мохито с экстрактом барбариса',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 45000,
+    weight: '1L'
+  },
+  {
+    id: 'mo5',
+    name: 'Strawberry Mojito',
+    nameUz: 'Qulupnayli moxito',
+    nameRu: 'Клубничный мохито',
+    category: 'mojitos',
+    image: '',
+    description: 'Sweet summer strawberry mint drink',
+    descriptionUz: 'Sarxil qulupnaylar va muz bo`lakli moxito',
+    descriptionRu: 'Сладкий летний клубничный коктейль с мятой',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 45000,
+    weight: '1L'
+  },
+  {
+    id: 'mo6',
+    name: 'Mango Mojito',
+    nameUz: 'Mango moxito',
+    nameRu: 'Манго мохито',
+    category: 'mojitos',
+    image: '',
+    description: 'Exotic tropical mango flavored mojito',
+    descriptionUz: 'Tropik mango sharbati va laym aralashmasi',
+    descriptionRu: 'Экзотический мохито с тропическим вкусом манго',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 45000,
+    weight: '1L'
+  },
+  {
+    id: 'mo7',
+    name: 'Orange Mojito',
+    nameUz: 'Apelsin moxito',
+    nameRu: 'Апельсиновый мохито',
+    category: 'mojitos',
+    image: '',
+    description: 'Citrusy orange and fresh mint refresher',
+    descriptionUz: 'Sitrusli apelsin va yangi yalpizli salqin ichimlik',
+    descriptionRu: 'Цитрусовый освежающий напиток с апельсином и мятой',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 45000,
+    weight: '1L'
+  },
+
+  // ==================== KVASLAR ====================
+  {
+    id: 'kv1',
+    name: 'Home Kvas Glass',
+    nameUz: 'Uy kvasi (Stakanda)',
+    nameRu: 'Домашний Квас (Стакан)',
+    category: 'kvas',
+    image: '',
+    description: 'Traditional home brewed refreshing kvas in a glass',
+    descriptionUz: 'An`anaviy usulda tayyorlangan uy kvasi stakanda',
+    descriptionRu: 'Традиционный домашний квас в стакане',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 15000,
+    weight: '1 stakan'
+  },
+  {
+    id: 'kv2',
+    name: 'Home Kvas 1L',
+    nameUz: 'Uy kvasi (1 Litr)',
+    nameRu: 'Домашний квас (1 литр)',
+    category: 'kvas',
+    image: '',
+    description: 'Authentic 1 liter home brewed kvas bottle',
+    descriptionUz: 'To`yimli va chanqoqbosti uy kvasi 1 litrlik idishda',
+    descriptionRu: 'Натуральный домашний квас объемом 1 литр',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 50000,
+    weight: '1L'
+  },
+
+  // ==================== SOUPS ====================
   {
     id: 'sp1',
     name: 'Borsh',
     nameUz: "Borsh",
     nameRu: 'Борщ',
     category: 'soups',
-    image: soup1,
+    image: br,
     description: 'Traditional rich beet soup with beef and vegetables',
     descriptionUz: "Mol go'shti va sabzavotlar bilan tayyorlanadigan an'anaviy qizilcha sho'rvasi",
     descriptionRu: 'Традиционный борщ со свеклой, говядиной и овощами',
@@ -262,7 +318,7 @@ export const products: Product[] = [
     nameUz: "Makka sho'rva",
     nameRu: 'Кукурузный суп',
     category: 'soups',
-    image: soup2,
+    image: mk,
     description: 'Sweet corn soup cooked in rich meat broth with herbs',
     descriptionUz: "To'yimli go'sht bulyonida ko'katlar bilan pishirilgan makka sho'rvasi",
     descriptionRu: 'Наваристый кукурузный суп на мясном бульоне с зеленью',
@@ -280,7 +336,7 @@ export const products: Product[] = [
     nameUz: "Qo'ziqorin sho'rva",
     nameRu: 'Грибной суп',
     category: 'soups',
-    image: soup3,
+    image: qz,
     description: 'Creamy mushroom soup with fresh herbs and spices',
     descriptionUz: "Yangi ko'katlar va ziravorlar bilan quyuq qo'ziqorin sho'rvasi",
     descriptionRu: 'Ароматный грибной суп со свежей зеленью и специями',
@@ -297,7 +353,7 @@ export const products: Product[] = [
     nameUz: "Shi sho'rva",
     nameRu: 'Щи',
     category: 'soups',
-    image: soup4,
+    image: shii,
     description: 'Classic cabbage soup with meat and fresh vegetables',
     descriptionUz: "Go'sht va yangi karam bilan pishiriladigan an'anaviy shi sho'rvasi",
     descriptionRu: 'Классический суп из свежей капусты с мясом',
@@ -314,7 +370,7 @@ export const products: Product[] = [
     nameUz: "Tovuqli sho'rva",
     nameRu: 'Куриный суп',
     category: 'soups',
-    image: soup5,
+    image: lap,
     description: 'Light and comforting chicken soup with noodles and vegetables',
     descriptionUz: "Parhezbop tovuq go'shtidan tayyorlangan makaronli va sabzavotli yengil sho'rva",
     descriptionRu: 'Легкий куриный суп с лапшой и овощами',
@@ -331,7 +387,7 @@ export const products: Product[] = [
     nameUz: "Ismaloqli sho'rva",
     nameRu: 'Суп со шпинатом',
     category: 'soups',
-    image: soup6,
+    image: is,
     description: 'Healthy green spinach soup with meat and boiled egg',
     descriptionUz: "Ismaloq, go'sht va qaynatilgan tuxum bilan tayyorlangan foydali ko'k sho'rva",
     descriptionRu: 'Полезный зеленый суп со шпинатом, мясом и яйцом',
@@ -348,7 +404,7 @@ export const products: Product[] = [
     nameUz: "Pishloqli sho'rva",
     nameRu: 'Сырный суп',
     category: 'soups',
-    image: soup7,
+    image: pish,
     description: 'Rich and creamy soup made with melted cheese and chicken broth',
     descriptionUz: "Eritilgan pishloq va tovuq bulyonida tayyorlangan quyuq kremli sho'rva",
     descriptionRu: 'Сливочный суп из плавленого сыра на курином бульоне',
@@ -359,23 +415,7 @@ export const products: Product[] = [
     calories: 410,
     weight: '350g',
   },
-  {
-    id: 'sp8',
-    name: "Chichivitsa sho'rva",
-    nameUz: "Chichivitsa sho'rva",
-    nameRu: 'Чечевичный суп',
-    category: 'soups',
-    image: soup8,
-    description: 'Hearty lentil soup with lemon and traditional spices',
-    descriptionUz: "Yasmiq (chechevitsa) va limon bilan tayyorlanadigan to'yimli turkcha sho'rva",
-    descriptionRu: 'Сытный чечевичный суп с лимоном и традиционными специями',
-    ingredients: ['Red Lentils', 'Onion', 'Carrot', 'Cumin', 'Lemon', 'Mint'],
-    ingredientsUz: ['Qizil yasmiq', 'Piyoz', 'Sabzi', 'Zira', 'Limon', 'Yalpiz'],
-    ingredientsRu: ['Красная чечевица', 'Лук', 'Морковь', 'Зира', 'Лимон', 'Мята'],
-    price: 30000,
-    calories: 270,
-    weight: '350g',
-  },
+
 
   // Frozen Soups
   {
@@ -406,8 +446,8 @@ export const products: Product[] = [
     descriptionUz: 'Uyda tayyorlash uchun muzlatilgan qoziqorinli sho\'rva',
     descriptionRu: 'Замороженный крем-суп из грибов для домашнего приготовления',
     ingredients: ['Mushrooms', 'Spices'],
-    ingredientsUz: ['Aromatik qo`ziqorinlar va tabiiy ziravorlar bilan boyitilgan, sog`lom va mazali tanlov.'],
-    ingredientsRu: ['Обогащен ароматными грибами и натуральными специями.'],
+    ingredientsUz: ['Aromatik qo`ziqorinlar and tabiiy ziravorlar bilan boyitilgan, sog`lom va mazali tanlov.'],
+    ingredientsRu: ['Обогащен ароматными грибами и натурационными специями.'],
     price: 30000,
     weight: '300g',
   },
@@ -610,7 +650,7 @@ export const products: Product[] = [
     image: 'https://tse3.mm.bing.net/th/id/OIP.z8h-Zg5VJclQKdGsjROmuwHaE8?cb=thfvnextfalcon2&w=508&h=339&rs=1&pid=ImgDetMain&o=7&rm=3',
     description: 'Whole traditional barley bread, high in fiber and rich in natural flavor.',
     descriptionUz: "Kletchatkaga boy va tabiiy ta'mga ega bo'lgan butun arpa noni.",
-    descriptionRu: 'Цельный традиционный ячменный хлеб, богатый клетчаткой и насыщенный натуральным вкусом.',
+    descriptionRu: 'Цельный传统 ячменный хлеб, богатый клетчаткой и насыщенный натуральным вкусом.',
     ingredients: ['Barley Flour', 'Wheat Flour', 'Water', 'Yeast', 'Salt'],
     ingredientsUz: ['Arpa uni', 'Bug\'doy uni', 'Suv', 'Xamirturush', 'Tuz'],
     ingredientsRu: ['Ячменная мука', 'Пшеничная мука', 'Вода', 'Дрожжи', 'Соль'],
@@ -651,7 +691,7 @@ export const products: Product[] = [
     ingredients: ['Lamb Meat', 'Beef', 'Bone Marrow', 'Onion', 'Garlic', 'Spices', 'Broccoli'],
     ingredientsUz: ['Qo`y go`shti, Mol go`shti, Dumba, Ilik, Dunbul, Bolg`or qalampir, Lavr bargi, Sarimsoq, Sarimsoq piyoz, Qizil piyoz, Ziravorlar, Brokkoli.'],
     ingredientsRu: ['Говядина, баранина, кости, лук, чеснок, специи, брокколи.'],
-    price: 70000 ,
+    price: 70000,
     calories: 450,
     weight: '500g',
     isPopular: true,
@@ -687,7 +727,7 @@ export const cafeInfo = {
   slogan: {
     en: 'Traditional Taste, Modern Atmosphere',
     uz: 'An\'anaviy Ta\'m, Zamonaviy Atmosfera',
-    ru: 'Традиционный Вкус, Современная Атмосфера',
+    ru: 'Традиционный Вкус, Современная ATMосфера',
   },
   address: {
     en: '65 Alisher Navoi Street, 115600, Namangan, Namangan Region, Uzbekistan',
