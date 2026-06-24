@@ -54,12 +54,12 @@ export interface Category {
 export const categories: Category[] = [
   { id: 'drinks', name: 'Drinks', nameUz: 'Ichimliklar', nameRu: 'Напитки', icon: '☕' },
   { id: 'soups', name: 'Soups', nameUz: "Sho'rvalar", nameRu: 'Супы', icon: '🥣' },
-  { id: 'frozen-soups', name: 'Frozen Soups', nameUz: "Muzlatilgan sho'rvalar", nameRu: 'Замороженные супы', icon: '❄️' },
-  { id: 'ayva-products', name: 'Ayva Products', nameUz: 'Ayva mahsulotlari', nameRu: 'Aйва продукты', icon: '🍐' },
-  { id: 'bread', name: 'bread', nameUz: 'Non', nameRu: 'Хлеб', icon: '🍞' },
-  { id: 'specials', name: 'Specials', nameUz: 'Maxsus takliflar', nameRu: 'Специальные предложения', icon: '🍴' },
+  // "Muzlatilgan-sho'rvalar" o'rniga "Muzlatilgan" yoki "Yarim tayyor" deb yozamiz:
+  { id: 'frozen-soups', name: 'Frozen', nameUz: 'Muzlatilgan', nameRu: 'Замороженные', icon: '❄️' },
+  { id: 'ayva-products', name: 'Quince', nameUz: 'Ayva taomlari', nameRu: 'Блюда из айвы', icon: '🍐' },
+  { id: 'bread', name: 'Bread', nameUz: 'Non mahsulotlari', nameRu: 'Хлеб', icon: '🍞' },
+  { id: 'specials', name: 'Specials', nameUz: 'Maxsus', nameRu: 'Особые', icon: '🍴' },
 ];
-
 export const products: Product[] = [
   // Drinks
   {
