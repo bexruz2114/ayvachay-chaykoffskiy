@@ -16,8 +16,10 @@ import atmasphere2 from '../assets/atmasphere2.png';
 import atmasphere3 from '../assets/atmasphere3.png';
 import br from '../assets/br.png';
 import chichivit from '../assets/chichivit.png';
-
-
+import shirinlik1 from '../assets/shirinlik1.jpg'
+import shirinlik2 from '../assets/shirinlik 2.jpg'
+import shirinlik3 from '../assets/shirinlik3.jpg'
+import somsa from '../assets/somsa.jpg'
 
 import is from '../assets/is.png';
 import lap from '../assets/lap.png';
@@ -25,7 +27,6 @@ import mk from '../assets/mk.png';
 import pish from '../assets/pish.png';
 import qz from '../assets/qz.png';
 import shii from '../assets/shii.png';
-
 
 export interface Product {
   id: string;
@@ -40,7 +41,8 @@ export interface Product {
   ingredients: string[];
   ingredientsUz: string[];
   ingredientsRu: string[];
-  price: number;
+  price: number; // Grafin yoki asosiy narx (moxitolarda Grafin: 50000)
+  priceGlass?: number; // Moxitolar uchun maxsus Stakan narxi: 20000
   calories?: number;
   weight?: string;
   isNew?: boolean;
@@ -56,19 +58,19 @@ export interface Category {
 }
 
 export const categories: Category[] = [
-   { id: 'ayva-products', name: 'Ayva Products', nameUz: 'Ayva mahsulotlari', nameRu: 'Aйва продукты', icon: '🍐' },
+  { id: 'ayva-products', name: 'Ayva Products', nameUz: 'Ayva mahsulotlari', nameRu: 'Aйва продукты', icon: '🍐' },
   { id: 'soups', name: 'Soups', nameUz: "Sho'rvalar", nameRu: 'Супы', icon: '🥣' },
   { id: 'frozen-soups', name: 'Frozen Soups', nameUz: 'Muzlatilgan', nameRu: 'Замороженные', icon: '❄️' },
-   { id: 'specials', name: 'Specials', nameUz: 'Maxsus takliflar', nameRu: 'Специальные предложения', icon: '🍴' },
+  { id: 'specials', name: 'Specials', nameUz: 'Maxsus takliflar', nameRu: 'Специальные предложения', icon: '🍴' },
+    { id: 'bread', name: 'Bread', nameUz: 'Non', nameRu: 'Хлеб', icon: '🍞' },
+  { id: 'deserts', name: 'Desserts', nameUz: 'Shirinliklar', nameRu: 'Десерты', icon: '🍰' },
   { id: 'choylar', name: 'Teas', nameUz: 'Choylar', nameRu: 'Чай', icon: '🫖' },
   { id: 'cocktails', name: 'Cocktails', nameUz: 'Kokteyllar', nameRu: 'Коктейли', icon: '🥤' },
   { id: 'mojitos', name: 'Mojitos', nameUz: 'Moxitolar', nameRu: 'Мохито', icon: '🍹' },
   { id: 'kvas', name: 'Kvas', nameUz: 'Kvaslar', nameRu: 'Квас', icon: '🍺' },
-  { id: 'bread', name: 'Bread', nameUz: 'Non', nameRu: 'Хлеб', icon: '🍞' },
- 
+
 ];
 
-// Внутренний список чаев с вашими ценами и пометкой isChoynak
 const teaList = [
   { id: 'ch26', uz: 'Karak choyi', ru: 'Чай Карак', en: 'Karak Tea', price: 70000, isChoynak: true },
   { id: 'ch5', uz: 'Lavanda choyi', ru: 'Лавандовый чай', en: 'Lavender Tea', price: 60000, isChoynak: true },
@@ -80,8 +82,6 @@ const teaList = [
   { id: 'ch13', uz: 'Jasmin choyi', ru: 'Жасминовый чай', en: 'Jasmine Tea', price: 50000, isChoynak: true },
   { id: 'ch6', uz: 'Rastaropsha choyi', ru: 'Чай Расторопша', en: 'Milk Thistle Tea', price: 45000, isChoynak: true },
   { id: 'ch7', uz: 'Bardak choyi', ru: 'Чай Бардак', en: 'Turkish Bardak Tea', price: 60000, isChoynak: true },
-
-  // Остальные чаи из старого списка
   { id: 'ch4', uz: 'Romashka choyi', ru: 'Ромашковый чай', en: 'Chamomile Tea', price: 45000 },
   { id: 'ch8', uz: 'Moxito choyi', ru: 'Мохито чай', en: 'Mojito Tea', price: 50000 },
   { id: 'ch10', uz: 'Karal choyi', ru: 'Королевский чай', en: 'Royal Karal Tea', price: 60000 },
@@ -164,106 +164,245 @@ export const products: Product[] = [
     weight: '1 stakan'
   },
 
-  // ==================== MOXITOLAR ====================
+  // ==================== MOXITOLAR (YANGILANGAN) ====================
+  // ==================== MOXITOLAR (GRAFIN VA STAKAN ALOHIDA) ====================
+  // 1. Ocean Mojito
   {
-    id: 'mo1',
-    name: 'Ocean Mojito 1L',
-    nameUz: 'Okean moxito (Grafin 1L)',
-    nameRu: 'Океан мохито (Графин 1л)',
+    id: 'mo1_jug',
+    name: 'Ocean Mojito (Jug)',
+    nameUz: 'Okean moxito (Grafin)',
+    nameRu: 'Океан мохито (Графин)',
     category: 'mojitos',
     image: '',
-    description: 'Refreshing blue ocean mojito in 1L pitcher',
-    descriptionUz: 'Yalpiz va laym bilan tetiklashtiruvchi 1 litrlik moviy moxito',
-    descriptionRu: 'Освежающий голубой мохито в графине объемом 1 литр',
-    ingredients: [], ingredientsUz: [], ingredientsRu: [],
-    price: 45000,
+    description: 'Refreshing blue ocean mojito with rich mint flavor served in a 1L jug.',
+    descriptionUz: 'Yalpiz va laym bilan tetiklashtiruvchi moviy moxito 1 litrlik grafinda.',
+    descriptionRu: 'Освежающий голубой мохито с насыщенным вкусом мяты в графине 1л.',
+    ingredients: ['Blue Curacao', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Blue Curacao siropi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Сироп Блю Кюрасао', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 50000,
     weight: '1L'
   },
   {
-    id: 'mo2',
-    name: 'Classic Mojito',
-    nameUz: 'Klassik moxito',
-    nameRu: 'Классический мохито',
+    id: 'mo1_glass',
+    name: 'Ocean Mojito (Glass)',
+    nameUz: 'Okean moxito (Stakan)',
+    nameRu: 'Океан мохито (Стакан)',
     category: 'mojitos',
     image: '',
-    description: 'Traditional mint and lime refreshing drink',
-    descriptionUz: 'An`anaviy yalpizli va laymli moxito ichimligi',
-    descriptionRu: 'Традиционный освежающий напиток с мятой и лаймом',
-    ingredients: [], ingredientsUz: [], ingredientsRu: [],
-    price: 45000,
-    weight: '1L'
-  },
-  {
-    id: 'mo3',
-    name: 'Pistachio Mojito',
-    nameUz: 'Pistali moxito',
-    nameRu: 'Фисташковый мохито',
-    category: 'mojitos',
-    image: '',
-    description: 'Unique mojito with rich pistachio flavor twist',
-    descriptionUz: 'Pista ta`mi va yalpiz uyg`unligidagi ajoyib moxito',
-    descriptionRu: 'Необычный мохито с насыщенным фисташковым вкусом',
-    ingredients: [], ingredientsUz: [], ingredientsRu: [],
-    price: 45000,
-    weight: '1L'
-  },
-  {
-    id: 'mo4',
-    name: 'Barberry Mojito',
-    nameUz: 'Barbaris moxito',
-    nameRu: 'Барбарисовый мохито',
-    category: 'mojitos',
-    image: '',
-    description: 'Sweet and sour barberry infused mojito',
-    descriptionUz: 'Yoqimli nordon barbaris ta`miga ega moxito',
-    descriptionRu: 'Кисло-сладкий мохито с экстрактом барбариса',
-    ingredients: [], ingredientsUz: [], ingredientsRu: [],
-    price: 45000,
-    weight: '1L'
-  },
-  {
-    id: 'mo5',
-    name: 'Strawberry Mojito',
-    nameUz: 'Qulupnayli moxito',
-    nameRu: 'Клубничный мохито',
-    category: 'mojitos',
-    image: '',
-    description: 'Sweet summer strawberry mint drink',
-    descriptionUz: 'Sarxil qulupnaylar va muz bo`lakli moxito',
-    descriptionRu: 'Сладкий летний клубничный коктейль с мятой',
-    ingredients: [], ingredientsUz: [], ingredientsRu: [],
-    price: 45000,
-    weight: '1L'
-  },
-  {
-    id: 'mo6',
-    name: 'Mango Mojito',
-    nameUz: 'Mango moxito',
-    nameRu: 'Манго мохито',
-    category: 'mojitos',
-    image: '',
-    description: 'Exotic tropical mango flavored mojito',
-    descriptionUz: 'Tropik mango sharbati va laym aralashmasi',
-    descriptionRu: 'Экзотический мохито с тропическим вкусом манго',
-    ingredients: [], ingredientsUz: [], ingredientsRu: [],
-    price: 45000,
-    weight: '1L'
-  },
-  {
-    id: 'mo7',
-    name: 'Orange Mojito',
-    nameUz: 'Apelsin moxito',
-    nameRu: 'Апельсиновый мохито',
-    category: 'mojitos',
-    image: '',
-    description: 'Citrusy orange and fresh mint refresher',
-    descriptionUz: 'Sitrusli apelsin va yangi yalpizli salqin ichimlik',
-    descriptionRu: 'Цитрусовый освежающий напиток с апельсином и мятой',
-    ingredients: [], ingredientsUz: [], ingredientsRu: [],
-    price: 45000,
-    weight: '1L'
+    description: 'Refreshing blue ocean mojito with rich mint flavor served in a glass.',
+    descriptionUz: 'Yalpiz va laym bilan tetiklashtiruvchi moviy moxito stakanda.',
+    descriptionRu: 'Освежающий голубой мохито с насыщенным вкусом мяты в стакане.',
+    ingredients: ['Blue Curacao', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Blue Curacao siropi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Сироп Блю Кюрасао', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 20000,
+    weight: '1 stakan'
   },
 
+  // 2. Classic Mojito
+  {
+    id: 'mo2_jug',
+    name: 'Classic Mojito (Jug)',
+    nameUz: 'Klassik moxito (Grafin)',
+    nameRu: 'Классический мохито (Графин)',
+    category: 'mojitos',
+    image: '',
+    description: 'Traditional mint and lime refreshing drink in a 1L jug.',
+    descriptionUz: 'An`anaviy yalpizli va laymli salqin moxito ichimligi 1 litrlik grafinda.',
+    descriptionRu: 'Традиционный освежающий напиток с мятой и лаймом в графине 1л.',
+    ingredients: ['Mint', 'Lime', 'Sugar Syrup', 'Sparkling Water'],
+    ingredientsUz: ['Yalpiz', 'Laym', 'Shakar siropi', 'Gazlangan suv'],
+    ingredientsRu: ['Мята', 'Лайм', 'Сахарный сироп', 'Газированная вода'],
+    price: 50000,
+    weight: '1L'
+  },
+  {
+    id: 'mo2_glass',
+    name: 'Classic Mojito (Glass)',
+    nameUz: 'Klassik moxito (Stakan)',
+    nameRu: 'Классический мохито (Стакан)',
+    category: 'mojitos',
+    image: '',
+    description: 'Traditional mint and lime refreshing drink in a glass.',
+    descriptionUz: 'An`anaviy yalpizli va laymli salqin moxito ichimligi stakanda.',
+    descriptionRu: 'Традиционный освежающий напиток с мятой и лаймом в стакане.',
+    ingredients: ['Mint', 'Lime', 'Sugar Syrup', 'Sparkling Water'],
+    ingredientsUz: ['Yalpiz', 'Laym', 'Shakar siropi', 'Gazlangan suv'],
+    ingredientsRu: ['Мята', 'Лайм', 'Сахарный сироп', 'Газированная вода'],
+    price: 20000,
+    weight: '1 stakan'
+  },
+
+  // 3. Pistachio Mojito
+  {
+    id: 'mo3_jug',
+    name: 'Pistachio Mojito (Jug)',
+    nameUz: 'Pistali moxito (Grafin)',
+    nameRu: 'Фисташковый мохито (Графин)',
+    category: 'mojitos',
+    image: '',
+    description: 'Unique mojito with rich pistachio flavor twist in a 1L jug.',
+    descriptionUz: 'Pista ta`mi va yalpiz uyg`unligidagi ajoyib o`zgacha moxito 1 litrlik grafinda.',
+    descriptionRu: 'Необычный мохито с насыщенным фисташковым вкусом в графине 1л.',
+    ingredients: ['Pistachio Syrup', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Pista siropi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Фисташковый сироп', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 50000,
+    weight: '1L'
+  },
+  {
+    id: 'mo3_glass',
+    name: 'Pistachio Mojito (Glass)',
+    nameUz: 'Pistali moxito (Stakan)',
+    nameRu: 'Фисташковый мохито (Стакан)',
+    category: 'mojitos',
+    image: '',
+    description: 'Unique mojito with rich pistachio flavor twist in a glass.',
+    descriptionUz: 'Pista ta`mi va yalpiz uyg`unligidagi ajoyib o`zgacha moxito stakanda.',
+    descriptionRu: 'Необычный мохито с насыщенным фисташковым вкусом в стакане.',
+    ingredients: ['Pistachio Syrup', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Pista siropi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Фисташковый сироп', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 20000,
+    weight: '1 stakan'
+  },
+
+  // 4. Barberry Mojito
+  {
+    id: 'mo4_jug',
+    name: 'Barberry Mojito (Jug)',
+    nameUz: 'Barbaris moxito (Grafin)',
+    nameRu: 'Барбарисовый мохито (Графин)',
+    category: 'mojitos',
+    image: '',
+    description: 'Sweet and sour barberry infused mojito in a 1L jug.',
+    descriptionUz: 'Yoqimli nordon va shirin barbaris ta`miga ega moxito 1 litrlik grafinda.',
+    descriptionRu: 'Кисло-сладкий мохито с экстрактом барбариса в графине 1л.',
+    ingredients: ['Barberry Syrup', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Barbaris siropi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Барбарисовый сироп', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 50000,
+    weight: '1L'
+  },
+  {
+    id: 'mo4_glass',
+    name: 'Barberry Mojito (Glass)',
+    nameUz: 'Barbaris moxito (Stakan)',
+    nameRu: 'Барбарисовый мохито (Стакан)',
+    category: 'mojitos',
+    image: '',
+    description: 'Sweet and sour barberry infused mojito in a glass.',
+    descriptionUz: 'Yoqimli nordon va shirin barbaris ta`miga ega moxito stakanda.',
+    descriptionRu: 'Кисло-сладкий мохито с экстрактом барбариса в стакане.',
+    ingredients: ['Barberry Syrup', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Barbaris siropi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Барбарисовый сироп', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 20000,
+    weight: '1 stakan'
+  },
+
+  // 5. Strawberry Mojito
+  {
+    id: 'mo5_jug',
+    name: 'Strawberry Mojito (Jug)',
+    nameUz: 'Qulupnayli moxito (Grafin)',
+    nameRu: 'Клубничный мохито (Графин)',
+    category: 'mojitos',
+    image: '',
+    description: 'Sweet summer strawberry mint drink in a 1L jug.',
+    descriptionUz: 'Sarxil qulupnaylar va muz bo`lakli shirin salqin moxito 1 litrlik grafinda.',
+    descriptionRu: 'Сладкий летний клубничный коктейль с мятой в графине 1л.',
+    ingredients: ['Fresh Strawberry', 'Strawberry Syrup', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Yangi qulupnay', 'Qulupnay siropi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Свежая клубника', 'Клубничный сироп', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 50000,
+    weight: '1L'
+  },
+  {
+    id: 'mo5_glass',
+    name: 'Strawberry Mojito (Glass)',
+    nameUz: 'Qulupnayli moxito (Stakan)',
+    nameRu: 'Клубничный мохито (Стакан)',
+    category: 'mojitos',
+    image: '',
+    description: 'Sweet summer strawberry mint drink in a glass.',
+    descriptionUz: 'Sarxil qulupnaylar va muz bo`lakli shirin salqin moxito stakanda.',
+    descriptionRu: 'Сладкий летний клубничный коктейль с мятой в стакане.',
+    ingredients: ['Fresh Strawberry', 'Strawberry Syrup', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Yangi qulupnay', 'Qulupnay siropi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Свежая клубника', 'Клубничный сироп', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 20000,
+    weight: '1 stakan'
+  },
+
+  // 6. Mango Mojito
+  {
+    id: 'mo6_jug',
+    name: 'Mango Mojito (Jug)',
+    nameUz: 'Mango moxito (Grafin)',
+    nameRu: 'Манго мохито (Графин)',
+    category: 'mojitos',
+    image: '',
+    description: 'Exotic tropical mango flavored mojito in a 1L jug.',
+    descriptionUz: 'Tropik mango sharbati va laym aralashmasidan tayyorlangan moxito 1 litrlik grafinda.',
+    descriptionRu: 'Экзотический мохито с тропическим вкусом манго в графине 1л.',
+    ingredients: ['Mango Puree', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Mango pyuresi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Пюре манго', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 50000,
+    weight: '1L'
+  },
+  {
+    id: 'mo6_glass',
+    name: 'Mango Mojito (Glass)',
+    nameUz: 'Mango moxito (Stakan)',
+    nameRu: 'Манго мохито (Стакан)',
+    category: 'mojitos',
+    image: '',
+    description: 'Exotic tropical mango flavored mojito in a glass.',
+    descriptionUz: 'Tropik mango sharbati va laym aralashmasidan tayyorlangan moxito stakanda.',
+    descriptionRu: 'Экзотический мохито с тропическим вкусом манго в стакане.',
+    ingredients: ['Mango Puree', 'Mint', 'Lime', 'Sparkling Water'],
+    ingredientsUz: ['Mango pyuresi', 'Yalpiz', 'Laym', 'Gazlangan suv'],
+    ingredientsRu: ['Пюре манго', 'Мята', 'Лайм', 'Газированная вода'],
+    price: 20000,
+    weight: '1 stakan'
+  },
+
+  // 7. Orange Mojito
+  {
+    id: 'mo7_jug',
+    name: 'Orange Mojito (Jug)',
+    nameUz: 'Apelsin moxito (Grafin)',
+    nameRu: 'Апельсиновый мохито (Графин)',
+    category: 'mojitos',
+    image: '',
+    description: 'Citrusy orange and fresh mint refresher in a 1L jug.',
+    descriptionUz: 'Sitrusli apelsin va yangi yalpizli tetiklashtiruvchi salqin ichimlik 1 litrlik grafinda.',
+    descriptionRu: 'Цитрусовый освежающий напиток с апельсином и мятой в графине 1л.',
+    ingredients: ['Fresh Orange', 'Orange Syrup', 'Mint', 'Lime'],
+    ingredientsUz: ['Yangi apelsin', 'Apelsin siropi', 'Yalpiz', 'Laym'],
+    ingredientsRu: ['Свежий апельсин', 'Апельсиновый сироп', 'Мята', 'Лайм'],
+    price: 50000,
+    weight: '1L'
+  },
+  {
+    id: 'mo7_glass',
+    name: 'Orange Mojito (Glass)',
+    nameUz: 'Apelsin moxito (Stakan)',
+    nameRu: 'Апельсиновый мохито (Стакан)',
+    category: 'mojitos',
+    image: '',
+    description: 'Citrusy orange and fresh mint refresher in a glass.',
+    descriptionUz: 'Sitrusli apelsin va yangi yalpizli tetiklashtiruvchi salqin ichimlik stakanda.',
+    descriptionRu: 'Цитрусовый освежающий напиток с апельсином и мятой в стакане.',
+    ingredients: ['Fresh Orange', 'Orange Syrup', 'Mint', 'Lime'],
+    ingredientsUz: ['Yangi apelsin', 'Apelsin siropi', 'Yalpiz', 'Laym'],
+    ingredientsRu: ['Свежий апельсин', 'Апельсиновый сироп', 'Мята', 'Лайм'],
+    price: 20000,
+    weight: '1 stakan'
+  },
   // ==================== KVASLAR ====================
   {
     id: 'kv1',
@@ -417,23 +556,22 @@ export const products: Product[] = [
     weight: '350g',
   },
   {
-  id: 'sp8',
-  name: "Chichivitsa sho'rva",
-  nameUz: "Chichivitsa sho'rva",
-  nameRu: 'Чечевичный суп',
-  category: 'soups',
-  image: chichivit,
-  description: 'Hearty lentil soup with lemon and traditional spices',
-  descriptionUz: "Yasmiq (chechevitsa) va limon bilan tayyorlanadigan to'yimli turkcha sho'rva",
-  descriptionRu: 'Сытный чечевичный суп с лимоном и традиционными специями',
-  ingredients: ['Red Lentils', 'Onion', 'Carrot', 'Cumin', 'Lemon', 'Mint'],
-  ingredientsUz: ['Qizil yasmiq', 'Piyoz', 'Sabzi', 'Zira', 'Limon', 'Yalpiz'],
-  ingredientsRu: ['Красная чечевица', 'Лук', 'Морковь', 'Зира', 'Лимон', 'Мята'],
-  price: 30000,
-  calories: 270,
-  weight: '350g',
-},
-
+    id: 'sp8',
+    name: "Chichivitsa sho'rva",
+    nameUz: "Chichivitsa sho'rva",
+    nameRu: 'Чечевичный суп',
+    category: 'soups',
+    image: chichivit,
+    description: 'Hearty lentil soup with lemon and traditional spices',
+    descriptionUz: "Yasmiq (chechevitsa) va limon bilan tayyorlanadigan to'yimli turkcha sho'rva",
+    descriptionRu: 'Сытный чечевичный суп с лимоном и традиционными специями',
+    ingredients: ['Red Lentils', 'Onion', 'Carrot', 'Cumin', 'Lemon', 'Mint'],
+    ingredientsUz: ['Qizil yasmiq', 'Piyoz', 'Sabzi', 'Zira', 'Limon', 'Yalpiz'],
+    ingredientsRu: ['Красная чечевица', 'Лук', 'Морковь', 'Зира', 'Лимон', 'Мята'],
+    price: 30000,
+    calories: 270,
+    weight: '350g',
+  },
 
   // Frozen Soups
   {
@@ -603,7 +741,7 @@ export const products: Product[] = [
     ingredients: ['Honey', 'Butter', 'Pistachio', 'Almond', 'Walnuts', 'Raisins', 'Dates', 'Pumpkin Seeds'],
     ingredientsUz: ['Asal va sariyog`', 'pista, bodom, yong`oq, mayiz, Arabiston xurmosi, gajjak, qovoq urug\'i, qoqi.'],
     ingredientsRu: ['Мёд и масло, фисташки, миндаль, грецкий орех, изюм, финики, тыквенные семечки'],
-    price: 55000,
+    price: 60000,
     weight: '200g',
   },
   {
@@ -619,8 +757,95 @@ export const products: Product[] = [
     ingredients: ['Quince', 'Honey', 'Butter', 'Cardamom', 'Cloves'],
     ingredientsUz: ['Asal sariyog`i va qalampirmunchoq'],
     ingredientsRu: ['Мед, масло и кардамон'],
-    price: 50000,
+    price: 55000,
     weight: '500ml',
+  },
+    // ==================== SHIRINLIKLAR (YANGI QO'SHILDI) ====================
+  {
+    id: 'des1',
+    name: 'Mevalik mussoviylar',
+    nameUz: 'Mevalik mussoviylar',
+    nameRu: 'фруктовые муссовые',
+    category: 'deserts',
+    image: shirinlik1,
+    description: '',
+    descriptionUz: '',
+    descriptionRu: '',
+    ingredients: [''],
+    ingredientsUz: [''],
+    ingredientsRu: [''],
+    price: 45000,
+  
+    isPopular: true
+  },
+  {
+    id: 'des2',
+    name: 'ChocoChaykoffskiy',
+    nameUz: 'ChocoChaykoffskiy',
+    nameRu: 'ЧокоЧайковский',
+    category: 'deserts',
+    image: shirinlik2,
+    description: '',
+    descriptionUz: '',
+    descriptionRu: '',
+    ingredients: [''],
+    ingredientsUz: [''],
+    ingredientsRu: [''],
+    price: 25000,
+
+  },
+  {
+    id: 'des3',
+    name: 'Tvorojniy',
+    nameUz: 'Tvorojniy ',
+    nameRu: 'Творожный',
+    category: 'deserts',
+    image: shirinlik3,
+    description: '',
+    descriptionUz: '',
+    descriptionRu: '',
+    ingredients: [''],
+    ingredientsUz: [''],
+    ingredientsRu: [''],
+    price: 25000,
+  
+    isNew: true
+  },
+  {
+    id: 'des4',
+    name: 'Yojikli somsa',
+    nameUz: 'Yojikli somsa',
+    nameRu: 'Ежик самса',
+    category: 'deserts',
+    image: somsa,
+    description: '.',
+    descriptionUz: '  ',
+    descriptionRu: '.',
+    ingredients: [''],
+    ingredientsUz: [''],
+    ingredientsRu: [''],
+    price: 15000,
+   
+  },
+
+  // Specials
+  {
+    id: 'spc1',
+    name: 'Calogen Chaykoffskiy',
+    nameUz: 'Kalogen chaykoffskiy',
+    nameRu: 'Калоген Чайковский',
+    category: 'specials',
+    image: callogen2,
+    description: '100% natural, Aromatic and Hot taste of Chaykoffskiy meal with added collagen for skin health',
+    descriptionUz: '100% tabiiy, Chaykoffskiy taomini teri sog‘ligi uchun kollagen qo‘shilgan holda aromatik va issiq ta’mi bilan',
+    descriptionRu: '100% натуральный, ароматный и горячий вкус блюда Чайковский с добавлением коллагена для здоровья кожи',
+    ingredients: ['Lamb Meat', 'Beef', 'Bone Marrow', 'Onion', 'Garlic', 'Spices', 'Broccoli'],
+    ingredientsUz: ['Qo`y go`shti, Mol go`shti, Dumba, Ilik, Dunbul, Bolg`or qalampir, Lavr bargi, Sarimsoq, Sarimsoq piyoz, Qizil piyoz, Ziravorlar, Brokkoli.'],
+    ingredientsRu: ['Говядина, баранина, кости, лук, чеснок, специи, брокколи.'],
+    price: 70000,
+    calories: 450,
+    weight: '500g',
+    isPopular: true,
   },
   
   // Bread
@@ -695,25 +920,7 @@ export const products: Product[] = [
     weight: '500g',
   },
 
-  // Specials
-  {
-    id: 'spc1',
-    name: 'Calogen Chaykoffskiy',
-    nameUz: 'Kalogen chaykoffskiy',
-    nameRu: 'Калоген Чайковский',
-    category: 'specials',
-    image: callogen2,
-    description: '100% natural, Aromatic and Hot taste of Chaykoffskiy meal with added collagen for skin health',
-    descriptionUz: '100% tabiiy, Chaykoffskiy taomini teri sog‘ligi uchun kollagen qo‘shilgan holda aromatik va issiq ta’mi bilan',
-    descriptionRu: '100% натуральный, ароматный и горячий вкус блюда Чайковский с добавлением коллагена для здоровья кожи',
-    ingredients: ['Lamb Meat', 'Beef', 'Bone Marrow', 'Onion', 'Garlic', 'Spices', 'Broccoli'],
-    ingredientsUz: ['Qo`y go`shti, Mol go`shti, Dumba, Ilik, Dunbul, Bolg`or qalampir, Lavr bargi, Sarimsoq, Sarimsoq piyoz, Qizil piyoz, Ziravorlar, Brokkoli.'],
-    ingredientsRu: ['Говядина, баранина, кости, лук, чеснок, специи, брокколи.'],
-    price: 70000,
-    calories: 450,
-    weight: '500g',
-    isPopular: true,
-  },
+
 ];
 
 export const atmosphereImages = [
