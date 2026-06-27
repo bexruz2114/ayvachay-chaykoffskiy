@@ -20,7 +20,7 @@ import shirinlik1 from '../assets/shirinlik1.jpg'
 import shirinlik2 from '../assets/shirinlik 2.jpg'
 import shirinlik3 from '../assets/shirinlik3.jpg'
 import somsa from '../assets/somsa.jpg'
-
+import shirinlik4 from '../assets/shirinlik4.png'
 import is from '../assets/is.png';
 import lap from '../assets/lap.png';
 import mk from '../assets/mk.png';
@@ -62,13 +62,13 @@ export const categories: Category[] = [
   { id: 'soups', name: 'Soups', nameUz: "Sho'rvalar", nameRu: 'Супы', icon: '🥣' },
   { id: 'frozen-soups', name: 'Frozen Soups', nameUz: 'Muzlatilgan', nameRu: 'Замороженные', icon: '❄️' },
   { id: 'specials', name: 'Specials', nameUz: 'Maxsus takliflar', nameRu: 'Специальные предложения', icon: '🍴' },
-    { id: 'bread', name: 'Bread', nameUz: 'Non', nameRu: 'Хлеб', icon: '🍞' },
+  { id: 'bread', name: 'Bread', nameUz: 'Non', nameRu: 'Хлеб', icon: '🍞' },
   { id: 'deserts', name: 'Desserts', nameUz: 'Shirinliklar', nameRu: 'Десерты', icon: '🍰' },
+  { id: 'somsalar', name: 'Somsalar', nameUz: 'Somsalar', nameRu: 'самсы', icon: '🥟' },
   { id: 'choylar', name: 'Teas', nameUz: 'Choylar', nameRu: 'Чай', icon: '🫖' },
   { id: 'cocktails', name: 'Cocktails', nameUz: 'Kokteyllar', nameRu: 'Коктейли', icon: '🥤' },
   { id: 'mojitos', name: 'Mojitos', nameUz: 'Moxitolar', nameRu: 'Мохито', icon: '🍹' },
   { id: 'kvas', name: 'Kvas', nameUz: 'Kvaslar', nameRu: 'Квас', icon: '🍺' },
-
 ];
 
 const teaList = [
@@ -116,9 +116,10 @@ export const products: Product[] = [
     ingredientsUz: [],
     ingredientsRu: [],
     price: tea.price,
-    weight: tea.isChoynak ? '1 choynak' : '1 porsion',
+    weight: '1 choynak', // Bu yerda hammasiga "1 choynak" yozildi
     isPopular: tea.popular || false,
   })),
+
 
   // ==================== KOKTEYLLAR ====================
   {
@@ -811,12 +812,28 @@ export const products: Product[] = [
   
     isNew: true
   },
-  {
-    id: 'des4',
+    {
+    id: 'des5',
+    name: 'San sebastian Chizkeyk',
+    nameUz: 'San sebastian Chizkeyk',
+    nameRu: 'Сан-Себастьян чизкейк',
+    category: 'deserts',
+    image: shirinlik4,
+    description: '',
+    descriptionUz: '',
+    descriptionRu: '',
+    ingredients: [''],
+    ingredientsUz: [''],
+    ingredientsRu: [''],
+    price: 45000,
+
+  },
+    {
+    id: 'som1',
     name: 'Yojikli somsa',
     nameUz: 'Yojikli somsa',
     nameRu: 'Ежик самса',
-    category: 'deserts',
+    category: 'somsalar',
     image: somsa,
     description: '.',
     descriptionUz: '  ',
