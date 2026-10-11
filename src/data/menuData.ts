@@ -27,6 +27,7 @@ import mk from '../assets/mk.png';
 import pish from '../assets/pish.png';
 import qz from '../assets/qz.png';
 import shii from '../assets/shii.png';
+import sandwich1 from '../assets/sandwich1.png';
 
 export interface Product {
   id: string;
@@ -62,6 +63,7 @@ export const categories: Category[] = [
   { id: 'soups', name: 'Soups', nameUz: "Sho'rvalar", nameRu: 'Супы', icon: '🥣' },
   { id: 'frozen-soups', name: 'Frozen Soups', nameUz: 'Muzlatilgan', nameRu: 'Замороженные', icon: '❄️' },
   { id: 'specials', name: 'Specials', nameUz: 'Maxsus takliflar', nameRu: 'Специальные предложения', icon: '🍴' },
+  { id: 'sandwiches', name: 'Sandwiches', nameUz: 'Sendvichlar', nameRu: 'Сэндвичи', icon: '🥪' },
   { id: 'bread', name: 'Bread', nameUz: 'Non', nameRu: 'Хлеб', icon: '🍞' },
   { id: 'deserts', name: 'Desserts', nameUz: 'Shirinliklar', nameRu: 'Десерты', icon: '🍰' },
   { id: 'somsalar', name: 'Somsalar', nameUz: 'Somsalar', nameRu: 'самсы', icon: '🥟' },
@@ -864,7 +866,24 @@ export const products: Product[] = [
     weight: '500g',
     isPopular: true,
   },
-  
+// -----------------------sandwiches-----------------------
+{
+  id: 'sw_tushenka',
+  name: 'Sandwich with Tushenka',
+  nameUz: 'Sendvich Chaykoffskiy',
+  nameRu: 'Сэндвич Чайковский',
+  category: 'sandwiches',
+  image: sandwich1,
+  description: '',
+  descriptionUz: "Toster nonida tushenka go'shti bilan tayyorlangan mazali sendvich.",
+  descriptionRu: 'Вкусный сэндвич на тостерном хлебе с тушенкой.',
+  ingredients: ['Toast Bread', 'Beef Stew (Tushenka)',],
+  ingredientsUz: ['Toster non', 'Tushenka', ],
+  ingredientsRu: ['Тостерный хлеб', 'Тушенка', ],
+  price: 20000,
+  calories: 420,
+  weight: '220g',
+},
   // Bread
   {
     id: 'ds1',
