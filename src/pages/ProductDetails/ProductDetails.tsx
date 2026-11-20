@@ -1,3 +1,4 @@
+
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Flame, Sparkles, MapPin } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';

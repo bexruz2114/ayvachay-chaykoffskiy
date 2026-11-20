@@ -1,4 +1,7 @@
-import { useState } from 'react';
+
+import { useState, useEffect, useLayoutEffect } from 'react';
+import { useNavigationType } from 'react-router-dom';
+
 import Header from '../../components/Header/Header';
 import HeroSection from '../../components/HeroSection/HeroSection';
 import ProductCard from '../../components/ProductCard/ProductCard';
@@ -6,33 +9,106 @@ import Gallery from '../../components/Gallery/Gallery';
 import ContactSection from '../../components/ContactSection/ContactSection';
 import Footer from '../../components/Footer/Footer';
 import SearchBar from '../../components/SearchBar/SearchBar';
+
 import { useLanguage } from '../../context/LanguageContext';
 import { products, categories } from '../../data/menuData';
+
+const SCROLL_KEY = 'homeScrollPosition';
 
 export default function Home() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { language, t } = useLanguage();
+  const navigationType = useNavigationType();
+
+  // ==========================================
+  // SCROLL POSITION SAVE & RESTORE
+  // ==========================================
+
+  useEffect(() => {
+    const saveScroll = () => {
+      sessionStorage.setItem(
+        SCROLL_KEY,
+        String(window.scrollY)
+      );
+    };
+
+    window.addEventListener('scroll', saveScroll, {
+      passive: true,
+    });
+
+    // Sahifadan chiqishdan oldin oxirgi pozitsiyani saqlash
+    return () => {
+      saveScroll();
+      window.removeEventListener('scroll', saveScroll);
+    };
+  }, []);
+
+  // Home sahifasiga qaytganda oldingi joyni tiklash
+  useLayoutEffect(() => {
+    if (navigationType !== 'POP') return;
+
+    const savedPosition = sessionStorage.getItem(SCROLL_KEY);
+
+    if (savedPosition === null) return;
+
+    const position = Number(savedPosition);
+
+    const frame = requestAnimationFrame(() => {
+      window.scrollTo({
+        top: position,
+        left: 0,
+        behavior: 'instant',
+      });
+
+      sessionStorage.removeItem(SCROLL_KEY);
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // ==========================================
+  // CATEGORY FUNCTIONS
+  // ==========================================
 
   const getCategoryTitle = (categoryId: string) => {
-    const category = categories.find((c) => c.id === categoryId);
+    const category = categories.find(
+      (c) => c.id === categoryId
+    );
+
     if (!category) return '';
-    return language === 'uz' ? category.nameUz : category.nameRu;
+
+    return language === 'uz'
+      ? category.nameUz
+      : category.nameRu;
   };
 
-  // Faqat shu ichimlik toifalarini premium minimalist (rasmsiz, faqat nom va narx) dizaynga o'tkazamiz
-  const liquidCategories = ['choylar', 'cocktails', 'mojitos', 'kvas'];
+  const liquidCategories = [
+    'choylar',
+    'cocktails',
+    'mojitos',
+    'kvas',
+    'kampot',
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header onSearchClick={() => setIsSearchOpen(true)} />
-      <SearchBar isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+    <div className="min-h-screen bg-[#F7F8F6]">
 
-      {/* Hero Section */}
+      <Header
+        onSearchClick={() => setIsSearchOpen(true)}
+      />
+
+      <SearchBar
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
+
+      {/* HERO */}
       <HeroSection />
 
-      {/* Product Sections */}
-      <div className="py-6">
-        <div className="container mx-auto px-4">
+      {/* PRODUCTS */}
+      <main className="py-8 sm:py-10">
+        <div className="container mx-auto px-4 max-w-7xl">
+
           {categories.map((category) => {
             const categoryProducts = products.filter(
               (product) => product.category === category.id
@@ -40,76 +116,101 @@ export default function Home() {
 
             if (categoryProducts.length === 0) return null;
 
-            // =========================================================================
-            // DIZAYN: FAQAT ICHIMLIKLAR (CHOYLAR, KOKTEYLLAR, MOXITOLAR, KVAS) UCHUN SECTION
-            // =========================================================================
+            // ======================================
+            // DRINK CATEGORIES
+            // ======================================
+
             if (liquidCategories.includes(category.id)) {
               return (
                 <section
                   key={category.id}
                   id={category.id}
-                  className="mb-12 scroll-mt-20 max-w-5xl mx-auto"
+                  className="mb-12 sm:mb-16 scroll-mt-24 max-w-5xl mx-auto"
                 >
-                  {/* bg-fixed va bg-no-repeat foni hamma blokda bir xil va qotgan holda turishini ta'minlaydi */}
-                  <div 
-                    className="relative rounded-2xl overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed shadow-2xl border border-emerald-900/40"
-                    style={{ 
-                      backgroundImage: `url('https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=1200&auto=format&fit=crop')` 
+                  <div
+                    className="relative rounded-3xl overflow-hidden shadow-xl border border-emerald-900/20 bg-cover bg-center"
+                    style={{
+                      backgroundImage:
+                        "url('https://static.vecteezy.com/system/resources/previews/056/173/469/non_2x/sunlight-green-background-blur-photo.jpg')",
                     }}
                   >
-                    {/* To'q yashil ton, gradient va backdrop-blur qatlami matnlarning bir xil chiroyli o'qilishini kafolatlaydi */}
-                    <div className="bg-gradient-to-b from-emerald-950/95 via-emerald-950/92 to-emerald-950/95 backdrop-blur-[3px] p-6 sm:p-10 text-white">
-                      
-                      {/* Sarlavha bloki */}
-                      <div className="text-center mb-6">
-                        <span className="inline-block px-8 py-2 border-2 border-amber-400 rounded-full text-xl sm:text-2xl font-bold text-amber-400 tracking-wider bg-emerald-900/50 shadow-inner uppercase">
-                          {getCategoryTitle(category.id)}
-                        </span>
-                        
-                        {/* Choylar uchun sarlavha ostiga maxsus eslatma yozuvi */}
+                    {/* Background overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#092E20]/95 via-[#124B32]/95 to-[#071F17]/95" />
+
+                    <div className="relative z-10 p-5 sm:p-9 lg:p-11 text-white">
+
+                      {/* CATEGORY TITLE */}
+                      <div className="text-center mb-8">
+                        <div className="inline-flex flex-col items-center">
+                          <span className="text-[10px] sm:text-xs tracking-[0.35em] uppercase text-emerald-200/70 font-semibold mb-3">
+                            AYVA CHAY
+                          </span>
+
+                          <h2 className="text-xl sm:text-3xl font-extrabold tracking-wide text-amber-300 uppercase">
+                            {getCategoryTitle(category.id)}
+                          </h2>
+
+                          <div className="w-16 h-[2px] bg-amber-400 mt-3 rounded-full" />
+                        </div>
+
+                        {/* SPECIAL NOTES */}
                         {category.id === 'choylar' && (
-                          <p className="text-amber-300/90 text-xs sm:text-sm italic mt-2 font-medium tracking-wide">
-                            * {language === 'uz' ? 'Ayrim choylar maxsus choynakda taqdim etiladi' : 'Некоторые чаи подаются в специальном чайнике'}
+                          <p className="text-amber-200/80 text-xs sm:text-sm italic mt-4">
+                            * {language === 'uz'
+                              ? 'Ayrim choylar maxsus choynakda taqdim etiladi'
+                              : 'Некоторые чаи подаются в специальном чайнике'}
                           </p>
                         )}
-                        {/* Kokteyllar uchun maxsus eslatma yozuvi */}
+
                         {category.id === 'cocktails' && (
-                          <p className="text-amber-300/90 text-xs sm:text-sm italic mt-2 font-medium tracking-wide">
-                            * {language === 'uz' ? 'Maxsus stakanda beriladi' : 'Подается в стакане'}
+                          <p className="text-amber-200/80 text-xs sm:text-sm italic mt-4">
+                            * {language === 'uz'
+                              ? 'Maxsus stakanda beriladi'
+                              : 'Подается в специальном стакане'}
                           </p>
                         )}
                       </div>
 
-                      {/* Ichimliklar ro'yxati (Faqat Nom va Narx - 2 ustunli chiroyli satrlar) */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3.5">
+                      {/* DRINK LIST */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-1">
+
                         {categoryProducts.map((product) => (
-                          <div 
-                            key={product.id} 
-                            className="flex items-end justify-between py-1 px-2 rounded hover:bg-white/5 transition-all duration-150 group"
+                          <div
+                            key={product.id}
+                            className="group flex items-end justify-between gap-2 py-3 px-2 rounded-xl border-b border-white/[0.08] hover:bg-white/[0.06] transition-all duration-300"
                           >
-                            {/* Ichimlik nomi va yonida o'lchov birligi */}
+                            {/* NAME */}
                             <div className="flex items-baseline gap-1.5 min-w-0">
-                              <span className="font-medium text-base sm:text-lg text-gray-100 group-hover:text-amber-300 transition-colors truncate">
-                                {language === 'uz' ? product.nameUz : product.nameRu}
+                              <span className="text-sm sm:text-base font-medium text-gray-100 group-hover:text-amber-300 transition-colors truncate">
+                                {language === 'uz'
+                                  ? product.nameUz
+                                  : product.nameRu}
                               </span>
-                              
-                              {/* Faqat "1 choynak" yoki o'lchami bor mahsulotlarda qavs ichida chiqadi */}
+
                               {product.weight && (
-                                <span className="text-xs text-amber-400/70 font-light italic whitespace-nowrap">
+                                <span className="text-[10px] sm:text-xs text-amber-300/70 italic whitespace-nowrap">
                                   ({product.weight})
                                 </span>
                               )}
                             </div>
-                            
-                            {/* O'rtadagi nuqtali chiziq (Dotted Leader) */}
-                            <span className="flex-1 border-b border-dotted border-gray-500/40 mx-2 mb-1.5 group-hover:border-amber-400/40"></span>
-                            
-                            {/* Narxi (so'mda) */}
-                            <span className="font-bold text-base sm:text-lg text-amber-400 whitespace-nowrap">
-                              {product.price.toLocaleString()} {t('so\'m', 'сум')}
+
+                            {/* DOTTED LINE */}
+                            <span className="flex-1 min-w-3 border-b border-dotted border-white/30 mb-1 group-hover:border-amber-400/70 transition-colors" />
+
+                            {/* PRICE */}
+                            <span className="text-sm sm:text-base font-extrabold text-amber-400 whitespace-nowrap">
+                              {product.price.toLocaleString()} {t("so'm", 'сум')}
                             </span>
                           </div>
                         ))}
+
+                      </div>
+
+                      {/* FOOTER */}
+                      <div className="mt-7 pt-4 border-t border-white/10 flex justify-center">
+                        <span className="text-[10px] tracking-[0.3em] text-white/40 uppercase">
+                          AYVA CHAY • MENU
+                        </span>
                       </div>
 
                     </div>
@@ -118,46 +219,75 @@ export default function Home() {
               );
             }
 
-            // =========================================================================
-            // DIZAYN: TAOMLAR, SHO'RVALAR VA NONLAR UCHUN ESKI STANDART CARD (GRID) KO'RINISHI
-            // =========================================================================
+            // ======================================
+            // FOOD CATEGORIES
+            // ======================================
+
             return (
               <section
                 key={category.id}
                 id={category.id}
-                className="mb-10 scroll-mt-20"
+                className="mb-12 sm:mb-14 scroll-mt-24"
               >
-                {/* Eski sarlavha ko'rinishi */}
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-2xl">{category.icon}</span>
-                  <h2 className="text-lg font-bold text-gray-900">
-                    {getCategoryTitle(category.id)}
-                  </h2>
-                  <span className="ml-auto text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-lg">
-                    {categoryProducts.length} {t('ta', '')}
-                  </span>
+
+                {/* SECTION HEADER */}
+                <div className="flex items-center gap-3 mb-5">
+
+                  <div className="w-11 h-11 flex items-center justify-center rounded-2xl bg-[#1F5F3F]/10 border border-[#1F5F3F]/10 shrink-0">
+                    <span className="text-2xl">
+                      {category.icon}
+                    </span>
+                  </div>
+
+                  <div className="min-w-0">
+                    <h2 className="text-base sm:text-xl font-extrabold text-gray-900 tracking-tight">
+                      {getCategoryTitle(category.id)}
+                    </h2>
+
+                    <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">
+                      {language === 'uz'
+                        ? 'Mazali taomlar siz uchun'
+                        : 'Вкусные блюда для вас'}
+                    </p>
+                  </div>
+
+                  <div className="ml-auto flex items-center gap-2 shrink-0">
+                    <span className="text-xs font-bold text-[#1F5F3F] bg-[#1F5F3F]/[0.08] border border-[#1F5F3F]/10 px-3 py-1.5 rounded-full">
+                      {categoryProducts.length} {t('ta', '')}
+                    </span>
+                  </div>
+
                 </div>
 
-                {/* Eski rasmli kartochkalar paneli */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {/* DECORATIVE LINE */}
+                <div className="h-px bg-gradient-to-r from-[#1F5F3F]/30 via-gray-200 to-transparent mb-5" />
+
+                {/* PRODUCT GRID */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
                   {categoryProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                    />
                   ))}
                 </div>
+
               </section>
             );
           })}
-        </div>
-      </div>
 
-      {/* Gallery Section */}
+        </div>
+      </main>
+
+      {/* GALLERY */}
       <Gallery />
 
-      {/* Contact Section */}
+      {/* CONTACT */}
       <ContactSection />
 
-      {/* Footer */}
+      {/* FOOTER */}
       <Footer />
+
     </div>
   );
 }

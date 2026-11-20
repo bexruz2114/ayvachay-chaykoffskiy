@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { categories } from '../../data/menuData';
 import img1 from '../../assets/image.png';
@@ -18,80 +18,140 @@ export default function Header({ onSearchClick }: HeaderProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const next = window.scrollY > 20;
+      setIsScrolled((prev) => (prev === next ? prev : next));
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
-  }, [location]);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const prevOverflow = document.body.style.overflow;
+    const prevPaddingRight = document.body.style.paddingRight;
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.overflow = 'hidden';
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.body.style.paddingRight = prevPaddingRight;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
 
   const scrollToSection = (categoryId: string) => {
+    setIsMobileMenuOpen(false);
+
     if (location.pathname !== '/') {
-      window.location.href = '/#' + categoryId;
+      window.location.href = `/#${categoryId}`;
       return;
     }
 
-    const element = document.getElementById(categoryId);
-
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
-
-    setIsMobileMenuOpen(false);
+    window.setTimeout(() => {
+      const el = document.getElementById(categoryId);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.scrollY - 84;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   return (
     <>
-      {/* HEADER */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#1F5F3F] shadow-lg py-2'
-            : 'bg-transparent py-4'
+            ? 'py-2.5 px-3 sm:px-6'
+            : 'py-4 px-3 sm:px-6'
         }`}
       >
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-
-            {/* LOGO */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl overflow-hidden bg-white/20 shadow-lg backdrop-blur-sm">
+        <div
+          className={`max-w-7xl mx-auto rounded-2xl transition-all duration-300 ${
+            isScrolled
+              ? 'bg-[#133B27]/95 backdrop-blur-xl border border-white/15 shadow-2xl px-4 py-2'
+              : 'bg-[#133B27]/75 backdrop-blur-md border border-white/10 px-4 py-2.5'
+          }`}
+        >
+          <div className="flex items-center justify-between gap-3">
+            <Link
+              to="/"
+              className="flex items-center gap-3 min-w-0 focus:outline-none"
+            >
+              <div className="w-10 h-10 rounded-xl overflow-hidden bg-white/10 border border-amber-300/30 shrink-0">
                 <img
                   src={img1}
-                  alt="Logo"
+                  alt="AYVACHAYKOFFSKIY"
                   className="w-full h-full object-cover"
                 />
               </div>
 
-              <div>
-                <h1 className="text-white text-sm font-bold leading-tight">
-                  AYVACHAY
-                </h1>
-                <p className="text-emerald-200 text-[10px] tracking-wider">
-                  CHAYKOFFSKIY
-                </p>
-              </div>
+              <span className="text-white font-bold text-sm sm:text-base tracking-wider truncate">
+                AYVACHAYKOFFSKIY
+              </span>
             </Link>
 
-            {/* RIGHT ACTIONS */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="hidden sm:flex items-center p-1 rounded-xl bg-black/25 border border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setLanguage('uz')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                    language === 'uz'
+                      ? 'bg-amber-400 text-[#133B27]'
+                      : 'text-white/75 hover:text-white'
+                  }`}
+                >
+                  O'Z
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage('ru')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                    language === 'ru'
+                      ? 'bg-amber-400 text-[#133B27]'
+                      : 'text-white/75 hover:text-white'
+                  }`}
+                >
+                  РУ
+                </button>
+              </div>
+
               <button
+                type="button"
                 onClick={() => onSearchClick?.()}
-                className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white"
+                aria-label={t('Qidirish', 'Поиск')}
+                className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 border border-white/10 flex items-center justify-center text-white transition-all cursor-pointer"
               >
-                <Search className="w-5 h-5" />
+                <Search className="w-4 h-4 text-amber-300" />
               </button>
 
               <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white"
+                type="button"
+                onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                aria-label={t('Menyu', 'Меню')}
+                aria-expanded={isMobileMenuOpen}
+                className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all active:scale-95 cursor-pointer ${
+                  isMobileMenuOpen
+                    ? 'bg-amber-400 text-[#133B27] border-amber-300'
+                    : 'bg-white/10 hover:bg-white/20 text-white border-white/10'
+                }`}
               >
                 {isMobileMenuOpen ? (
                   <X className="w-5 h-5" />
@@ -100,104 +160,122 @@ export default function Header({ onSearchClick }: HeaderProps) {
                 )}
               </button>
             </div>
-
           </div>
         </div>
       </header>
 
-      {/* OVERLAY */}
       <div
-        className={`fixed inset-0 bg-black/50 z-40 transition-opacity ${
+        onClick={() => setIsMobileMenuOpen(false)}
+        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-xs transition-opacity duration-300 ${
           isMobileMenuOpen
-            ? 'opacity-100'
+            ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 pointer-events-none'
         }`}
-        onClick={() => setIsMobileMenuOpen(false)}
       />
 
-      {/* MOBILE MENU */}
-      <div
-        className={`fixed top-0 right-0 bottom-0 w-[280px] bg-[#1F5F3F] z-50 transition-transform ${
-          isMobileMenuOpen
-            ? 'translate-x-0'
-            : 'translate-x-full'
+      <aside
+        aria-hidden={!isMobileMenuOpen}
+        className={`fixed top-0 right-0 z-50 h-dvh w-[84vw] max-w-[330px] bg-[#133B27] text-white border-l border-white/10 shadow-2xl overflow-y-auto overscroll-contain touch-pan-y will-change-transform transition-transform duration-300 ease-out ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="p-6">
+        <div className="min-h-full flex flex-col justify-between p-5">
+          <div>
+            <div className="flex items-center justify-between pb-4 mb-5 border-b border-white/10">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-xl overflow-hidden bg-white/10 border border-amber-300/30 shrink-0">
+                  <img
+                    src={img1}
+                    alt="AYVACHAY"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <div className="font-bold text-sm tracking-wide truncate">
+                    AYVACHAY
+                  </div>
+                  <div className="text-[11px] text-amber-300 tracking-widest uppercase truncate">
+                    CHAYKOFFSKIY
+                  </div>
+                </div>
+              </div>
 
-          {/* TOP */}
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-white font-bold">
-                AYVACHAY
-              </h2>
-              <p className="text-emerald-300 text-xs">
-                CHAYKOFFSKIY
-              </p>
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label={t('Yopish', 'Закрыть')}
+                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white transition-all cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
 
-            <button
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* MENU ITEMS */}
-          <nav className="space-y-2">
             <Link
               to="/"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold mb-4 transition-colors ${
+                location.pathname === '/'
+                  ? 'bg-amber-400 text-[#133B27]'
+                  : 'bg-white/10 text-white hover:bg-white/15'
+              }`}
             >
-              🏠 {t('Bosh sahifa', 'Главная')}
+              <span className="flex items-center gap-3">
+                <span>🏠</span>
+                <span>{t('Bosh sahifa', 'Главная')}</span>
+              </span>
+              <ChevronRight className="w-4 h-4 opacity-70" />
             </Link>
 
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => scrollToSection(category.id)}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white"
-              >
-                <span>{category.icon}</span>
-                <span>
-                  {language === 'uz'
-                    ? category.nameUz
-                    : category.nameRu}
-                </span>
-              </button>
-            ))}
-          </nav>
+            <nav className="space-y-1">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  type="button"
+                  onClick={() => scrollToSection(category.id)}
+                  className="group w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm text-white/90 hover:text-white hover:bg-white/10 active:scale-[0.98] transition-all text-left cursor-pointer"
+                >
+                  <span className="flex items-center gap-3 min-w-0">
+                    <span className="text-base leading-none shrink-0">
+                      {category.icon}
+                    </span>
+                    <span className="truncate font-medium">
+                      {language === 'uz' ? category.nameUz : category.nameRu}
+                    </span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-white/35 group-hover:text-amber-300 transition-colors shrink-0" />
+                </button>
+              ))}
+            </nav>
+          </div>
 
-          {/* LANGUAGE */}
-          <div className="mt-8 pt-6 border-t border-white/20">
-            <div className="flex gap-2">
+          <div className="mt-6 pt-4 border-t border-white/10 sm:hidden">
+            <div className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-black/25">
               <button
+                type="button"
                 onClick={() => setLanguage('uz')}
-                className={`flex-1 py-2 rounded-xl ${
+                className={`py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   language === 'uz'
-                    ? 'bg-amber-400 text-[#1F5F3F]'
-                    : 'bg-white/10 text-white'
+                    ? 'bg-amber-400 text-[#133B27]'
+                    : 'text-white/75 hover:text-white'
                 }`}
               >
                 O'Z
               </button>
-
               <button
+                type="button"
                 onClick={() => setLanguage('ru')}
-                className={`flex-1 py-2 rounded-xl ${
+                className={`py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   language === 'ru'
-                    ? 'bg-amber-400 text-[#1F5F3F]'
-                    : 'bg-white/10 text-white'
+                    ? 'bg-amber-400 text-[#133B27]'
+                    : 'text-white/75 hover:text-white'
                 }`}
               >
                 РУ
               </button>
             </div>
           </div>
-
         </div>
-      </div>
+      </aside>
     </>
   );
 }

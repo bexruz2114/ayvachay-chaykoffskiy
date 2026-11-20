@@ -1,71 +1,204 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
-import { Product } from '../../data/menuData';
-import { Flame, Sparkles } from 'lucide-react';
+import { Flame, Sparkles, Users, ArrowUpRight, Utensils } from 'lucide-react';
+
+interface ProductCardItem {
+  id: string;
+  nameUz: string;
+  nameRu: string;
+  image: string;
+  price: number;
+  calories?: number;
+  isNew?: boolean;
+  isPopular?: boolean;
+}
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductCardItem;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { language } = useLanguage();
   const name = language === 'uz' ? product.nameUz : product.nameRu;
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('uz-UZ').format(price) + " so'm";
-  };
+  const isKalogenBuka =
+    product.id === 'kalogen-buka' ||
+    product.id === 'kalogen-buka-folga' ||
+    product.id === 'tuyoq';
+
+  const isTil = product.id === 'til' || product.id === 'folgalangan-til';
+
+  const isChaykoffskiy = product.id === 'kalogen-chaykoffskiy';
+
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat('uz-UZ').format(price) +
+    (language === 'uz' ? " so'm" : ' сум');
+
+  const portion = (
+    title: string,
+    subtitle: string,
+    price: number,
+    featured = false
+  ) => (
+    <div
+      className={`flex items-center justify-between gap-2.5 px-3 py-2 rounded-xl border transition-all duration-200 ${
+        featured
+          ? 'bg-[#1F5F3F]/[0.08] border-[#1F5F3F]/25'
+          : 'bg-[#F7FAF8] border-emerald-950/8'
+      }`}
+    >
+      <div className="min-w-0">
+        <p
+          className={`text-xs font-bold truncate ${
+            featured ? 'text-[#14422B]' : 'text-gray-800'
+          }`}
+        >
+          {title}
+        </p>
+        <p className="flex items-center gap-1 text-[10px] text-gray-500 mt-0.5 truncate">
+          <Users
+            size={11}
+            className={featured ? 'text-[#D97706]' : 'text-[#1F5F3F]/75'}
+          />
+          <span>{subtitle}</span>
+        </p>
+      </div>
+      <span
+        className={`text-xs font-extrabold whitespace-nowrap ${
+          featured ? 'text-[#14422B]' : 'text-gray-900'
+        }`}
+      >
+        {formatPrice(price)}
+      </span>
+    </div>
+  );
 
   return (
     <Link
       to={`/product/${product.id}`}
-      className="group block bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100"
+      className="group relative flex flex-col bg-white rounded-[24px] overflow-hidden border border-emerald-950/10 shadow-[0_8px_26px_-10px_rgba(15,23,42,0.1)] hover:shadow-[0_22px_45px_-14px_rgba(20,66,43,0.24)] hover:border-[#1F5F3F]/30 hover:-translate-y-1.5 active:scale-[0.985] active:border-[#1F5F3F]/40 transition-all duration-300 ease-out animate-fade-in"
     >
-      {/* Image Container */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      {/* IMAGE */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-[#EDF2EE]">
         <img
           src={product.image}
           alt={name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108 group-active:scale-105"
         />
 
-        {/* Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1.5">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300 pointer-events-none" />
+
+        {/* BADGES */}
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
           {product.isNew && (
-            <span className="inline-flex items-center gap-0.5 px-2 py-0.5 bg-emerald-500 text-white text-[10px] font-semibold rounded-md shadow-sm">
-              <Sparkles className="w-2.5 h-2.5" />
-              {language === 'uz' ? 'Yangi' : 'Новинка'}
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#14422B] text-[10px] font-extrabold tracking-wide shadow-sm border border-emerald-950/10">
+              <Sparkles size={11} className="text-[#1F5F3F]" />
+              {language === 'uz' ? 'YANGI' : 'НОВИНКА'}
             </span>
           )}
+
           {product.isPopular && (
-            <span className="inline-flex items-center gap-0.5 px-2 py-0.5 bg-amber-500 text-white text-[10px] font-semibold rounded-md shadow-sm">
-              <Flame className="w-2.5 h-2.5" />
-              {language === 'uz' ? 'Mashhur' : 'Хит'}
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-500 to-[#D97706] text-white text-[10px] font-extrabold tracking-wide shadow-sm">
+              <Flame size={11} />
+              {language === 'uz' ? 'MASHHUR' : 'ХИТ'}
             </span>
           )}
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="p-3">
-        {/* Name */}
-        <h3 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-1 group-hover:text-[#1F5F3F] transition-colors">
-          {name}
-        </h3>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-bold text-[#1F5F3F]">
-            {formatPrice(product.price)}
-          </span>
-
-          {product.calories && (
-            <span className="text-[10px] text-gray-400">
-              {product.calories} kcal
-            </span>
-          )}
+        {/* VIEW BUTTON */}
+        <div className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center text-[#14422B] shadow-md ring-1 ring-black/5 transition-all duration-300 group-hover:bg-[#1F5F3F] group-hover:text-white group-hover:rotate-12 group-active:bg-[#1F5F3F] group-active:text-white group-active:scale-95">
+          <ArrowUpRight size={17} />
         </div>
       </div>
+
+      {/* CONTENT */}
+      <div className="p-4 flex-1 flex flex-col">
+        {/* TITLE */}
+        <div className="flex items-start gap-2.5 mb-3">
+          <span className="w-1 h-5 rounded-full bg-gradient-to-b from-[#1F5F3F] to-amber-500 shrink-0 mt-0.5 transition-all duration-300 group-hover:h-6 group-active:h-6" />
+          <h3 className="text-[14.5px] sm:text-[15px] font-extrabold text-gray-900 leading-snug line-clamp-2 transition-colors duration-200 group-hover:text-[#14422B] group-active:text-[#14422B]">
+            {name}
+          </h3>
+        </div>
+
+        {/* SPECIAL PORTIONS */}
+        {isKalogenBuka ? (
+          <div className="space-y-2 mt-auto">
+            {portion(
+              language === 'uz' ? 'Kichik' : 'Маленькая',
+              language === 'uz' ? '2 kishilik' : '2 персоны',
+              160000
+            )}
+            {portion(
+              language === 'uz' ? 'Katta' : 'Большая',
+              language === 'uz' ? '4 kishilik' : '4 персоны',
+              220000,
+              true
+            )}
+          </div>
+        ) : isTil ? (
+          <div className="space-y-2 mt-auto">
+            {portion(
+              language === 'uz' ? '2–3 kishilik' : '2–3 персоны',
+              language === 'uz' ? 'Oddiy porsiya' : 'Обычная порция',
+              300000
+            )}
+            {portion(
+              language === 'uz' ? '4 kishilik' : '4 персоны',
+              language === 'uz' ? 'Katta porsiya' : 'Большая порция',
+              350000,
+              true
+            )}
+          </div>
+        ) : isChaykoffskiy ? (
+          <div className="space-y-3 mt-auto pt-1">
+            <div className="flex flex-wrap gap-1.5">
+              <span className="px-2.5 py-1 rounded-lg bg-emerald-950/[0.06] border border-emerald-900/12 text-[10px] font-bold text-[#14422B]">
+                {language === 'uz' ? "Mol go'shti" : 'Говядина'}
+              </span>
+              <span className="px-2.5 py-1 rounded-lg bg-amber-500/12 border border-amber-500/25 text-[10px] font-bold text-amber-800">
+                {language === 'uz' ? "Qo'y go'shti" : 'Баранина'}
+              </span>
+            </div>
+
+            <div className="flex items-baseline justify-between pt-1.5 border-t border-gray-100">
+              <span className="text-base font-extrabold text-[#14422B] tracking-tight">
+                {formatPrice(product.price)}
+              </span>
+              {product.calories && (
+                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-gray-500 bg-gray-100/90 px-2 py-0.5 rounded-md">
+                  <Utensils size={10} className="text-gray-400" />
+                  {product.calories} kcal
+                </span>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-end justify-between mt-auto pt-2.5 border-t border-gray-100">
+            <div>
+              <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-0.5">
+                {language === 'uz' ? 'Narxi' : 'Цена'}
+              </p>
+              <span className="text-base font-extrabold text-[#14422B] tracking-tight">
+                {formatPrice(product.price)}
+              </span>
+            </div>
+
+            {product.calories && (
+              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#F3F7F4] border border-emerald-950/6">
+                <Utensils size={11} className="text-[#1F5F3F]/75" />
+                <span className="text-[10px] text-gray-600 font-semibold">
+                  {product.calories} kcal
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* BOTTOM ACCENT LINE */}
+      <div className="h-[3px] w-0 bg-gradient-to-r from-[#1F5F3F] via-emerald-600 to-amber-500 transition-all duration-500 ease-out group-hover:w-full group-active:w-full" />
     </Link>
   );
 }

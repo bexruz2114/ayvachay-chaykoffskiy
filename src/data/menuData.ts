@@ -28,6 +28,8 @@ import pish from '../assets/pish.png';
 import qz from '../assets/qz.png';
 import shii from '../assets/shii.png';
 import sandwich1 from '../assets/sandwich1.png';
+import til from '../assets/til.png';
+import tuyoq from '../assets/tuyoq.png';
 
 export interface Product {
   id: string;
@@ -42,12 +44,20 @@ export interface Product {
   ingredients: string[];
   ingredientsUz: string[];
   ingredientsRu: string[];
-  price: number; // Grafin yoki asosiy narx (moxitolarda Grafin: 50000)
-  priceGlass?: number; // Moxitolar uchun maxsus Stakan narxi: 20000
+  price: number;
   calories?: number;
   weight?: string;
   isNew?: boolean;
   isPopular?: boolean;
+
+  
+  // SHUNI QO'SHASIZ:
+  sizes?: {
+    name: string; // "Katta" / "Kichik"
+    price: number;       // 220000 / 160000
+    weight: string;      // "1200g" / "700g"
+  }[];
+  prices?: { weight: string; price: number }[]; 
 }
 
 export interface Category {
@@ -57,6 +67,7 @@ export interface Category {
   nameRu: string;
   icon: string;
 }
+
 
 export const categories: Category[] = [
   { id: 'ayva-products', name: 'Ayva Products', nameUz: 'Ayva mahsulotlari', nameRu: 'Aйва продукты', icon: '🍐' },
@@ -70,38 +81,70 @@ export const categories: Category[] = [
   { id: 'choylar', name: 'Teas', nameUz: 'Choylar', nameRu: 'Чай', icon: '🫖' },
   { id: 'cocktails', name: 'Cocktails', nameUz: 'Kokteyllar', nameRu: 'Коктейли', icon: '🥤' },
   { id: 'mojitos', name: 'Mojitos', nameUz: 'Moxitolar', nameRu: 'Мохито', icon: '🍹' },
-  { id: 'kvas', name: 'Kvas', nameUz: 'Kvaslar', nameRu: 'Квас', icon: '🍺' },
+  { id: 'kvas', name: 'Kvas', nameUz: 'Kvaslar', nameRu: 'Квас ', icon: '🍺' },
+  { id: 'kampot', name: 'Kampotlar', nameUz: 'Kampotlar', nameRu: 'Кампоты', icon: '🍷' },
 ];
 
+// const teaList = [
+//   { id: 'ch26', uz: 'Karak choyi', ru: 'Чай Карак', en: 'Karak Tea', price: 70000, isChoynak: true },
+//   { id: 'ch5', uz: 'Lavanda choyi', ru: 'Лавандовый чай', en: 'Lavender Tea', price: 60000, isChoynak: true },
+//   { id: 'ch9', uz: 'Karkade choyi', ru: 'Чай Каркаде', en: 'Karkade Tea', price: 50000, isChoynak: true },
+//   { id: 'ch1', uz: 'Olong choyi', ru: 'Молочный Оолонг', en: 'Milk Olong Tea', price: 60000, isChoynak: true, popular: true },
+//   { id: 'ch11', uz: 'Malina choyi', ru: 'Малиновый чай', en: 'Raspberry Tea', price: 50000, isChoynak: true, popular: true },
+//   { id: 'ch3', uz: 'Limon imbir choyi', ru: 'Лимон имбирь', en: 'Lemon Ginger Tea', price: 50000, isChoynak: true, popular: true },
+//   { id: 'ch2', uz: 'Fruktoviy miks choyi', ru: 'Фруктовый микс', en: 'Fruit Mix Tea', price: 60000, isChoynak: true },
+//   { id: 'ch13', uz: 'Jasmin choyi', ru: 'Жасминовый чай', en: 'Jasmine Tea', price: 50000, isChoynak: true },
+//   { id: 'ch6', uz: 'Rastaropsha choyi', ru: 'Чай Расторопша', en: 'Milk Thistle Tea', price: 45000, isChoynak: true },
+//   { id: 'ch7', uz: 'Bardak choyi', ru: 'Чай Бардак', en: 'Turkish Bardak Tea', price: 60000, isChoynak: true },
+//   { id: 'ch4', uz: 'Romashka choyi', ru: 'Ромашковый чай', en: 'Chamomile Tea', price: 45000 },
+//   { id: 'ch8', uz: 'Moxito choyi', ru: 'Мохито чай', en: 'Mojito Tea', price: 50000 },
+//   { id: 'ch10', uz: 'Karal choyi', ru: 'Королевский чай', en: 'Royal Karal Tea', price: 60000 },
+//   { id: 'ch12', uz: 'Oddiy Ahmad choyi', ru: 'Чай Ахмад', en: 'Classic Ahmad Tea', price: 20000 },
+//   { id: 'ch14', uz: 'Kardamon choyi', ru: 'Чай с кардамоном', en: 'Cardamom Tea', price: 40000 },
+//   { id: 'ch15', uz: "Avg'on choyi", ru: 'Афганский чай', en: 'Afghan Tea', price: 40000 },
+//   { id: 'ch16', uz: 'Chaykoffskiy choyi', ru: 'Чай Чайковский', en: 'Chaykoffskiy Special Tea', price: 80000, popular: true },
+//   { id: 'ch17', uz: 'Sutli choy', ru: 'Чай с молоком', en: 'Milk Tea', price: 50000 },
+//   { id: 'ch18', uz: 'Pistali sutli choy', ru: 'Фисташковый чай с молоком', en: 'Pistachio Milk Tea', price: 80000, popular: true },
+//   { id: 'ch19', uz: 'Lechebniy choy', ru: 'Лечебный чай', en: 'Medicinal Tea', price: 50000 },
+//   { id: 'ch20', uz: 'Tinchlantiruvchi choy', ru: 'Успокаивающий чай', en: 'Calming Tea', price: 50000 },
+//   { id: 'ch21', uz: 'Zanjabil choyi', ru: 'Имбирный чай', en: 'Ginger Tea', price: 45000 },
+//   { id: 'ch22', uz: 'Mumiyoli choy', ru: 'Чай с мумиё', en: 'Mumiyo Tea', price: 50000 },
+//   { id: 'ch23', uz: 'Namatak choyi', ru: 'Чай с шиповником', en: 'Rosehip Tea', price: 45000 },
+//   { id: 'ch24', uz: 'Barbaris choyi', ru: 'Барбарисовый чай', en: 'Barberry Tea', price: 50000 },
+//   { id: 'ch25', uz: 'Koritsali choy', ru: 'Чай с корицей', en: 'Cinnamon Tea', price: 40000 }
+// ];
 const teaList = [
-  { id: 'ch26', uz: 'Karak choyi', ru: 'Чай Карак', en: 'Karak Tea', price: 70000, isChoynak: true },
-  { id: 'ch5', uz: 'Lavanda choyi', ru: 'Лавандовый чай', en: 'Lavender Tea', price: 60000, isChoynak: true },
-  { id: 'ch9', uz: 'Karkade choyi', ru: 'Чай Каркаде', en: 'Karkade Tea', price: 50000, isChoynak: true },
-  { id: 'ch1', uz: 'Olong choyi', ru: 'Молочный Оолонг', en: 'Milk Olong Tea', price: 60000, isChoynak: true, popular: true },
-  { id: 'ch11', uz: 'Malina choyi', ru: 'Малиновый чай', en: 'Raspberry Tea', price: 50000, isChoynak: true, popular: true },
-  { id: 'ch3', uz: 'Limon imbir choyi', ru: 'Лимон имбирь', en: 'Lemon Ginger Tea', price: 50000, isChoynak: true, popular: true },
-  { id: 'ch2', uz: 'Fruktoviy miks choyi', ru: 'Фруктовый микс', en: 'Fruit Mix Tea', price: 60000, isChoynak: true },
-  { id: 'ch13', uz: 'Jasmin choyi', ru: 'Жасминовый чай', en: 'Jasmine Tea', price: 50000, isChoynak: true },
-  { id: 'ch6', uz: 'Rastaropsha choyi', ru: 'Чай Расторопша', en: 'Milk Thistle Tea', price: 45000, isChoynak: true },
-  { id: 'ch7', uz: 'Bardak choyi', ru: 'Чай Бардак', en: 'Turkish Bardak Tea', price: 60000, isChoynak: true },
-  { id: 'ch4', uz: 'Romashka choyi', ru: 'Ромашковый чай', en: 'Chamomile Tea', price: 45000 },
-  { id: 'ch8', uz: 'Moxito choyi', ru: 'Мохито чай', en: 'Mojito Tea', price: 50000 },
-  { id: 'ch10', uz: 'Karal choyi', ru: 'Королевский чай', en: 'Royal Karal Tea', price: 60000 },
-  { id: 'ch12', uz: 'Oddiy Ahmad choyi', ru: 'Чай Ахмад', en: 'Classic Ahmad Tea', price: 20000 },
-  { id: 'ch14', uz: 'Kardamon choyi', ru: 'Чай с кардамоном', en: 'Cardamom Tea', price: 40000 },
-  { id: 'ch15', uz: "Avg'on choyi", ru: 'Афганский чай', en: 'Afghan Tea', price: 40000 },
-  { id: 'ch16', uz: 'Chaykoffskiy choyi', ru: 'Чай Чайковский', en: 'Chaykoffskiy Special Tea', price: 80000, popular: true },
-  { id: 'ch17', uz: 'Sutli choy', ru: 'Чай с молоком', en: 'Milk Tea', price: 50000 },
-  { id: 'ch18', uz: 'Pistali sutli choy', ru: 'Фисташковый чай с молоком', en: 'Pistachio Milk Tea', price: 80000, popular: true },
-  { id: 'ch19', uz: 'Lechebniy choy', ru: 'Лечебный чай', en: 'Medicinal Tea', price: 50000 },
-  { id: 'ch20', uz: 'Tinchlantiruvchi choy', ru: 'Успокаивающий чай', en: 'Calming Tea', price: 50000 },
-  { id: 'ch21', uz: 'Zanjabil choyi', ru: 'Имбирный чай', en: 'Ginger Tea', price: 45000 },
-  { id: 'ch22', uz: 'Mumiyoli choy', ru: 'Чай с мумиё', en: 'Mumiyo Tea', price: 50000 },
-  { id: 'ch23', uz: 'Namatak choyi', ru: 'Чай с шиповником', en: 'Rosehip Tea', price: 45000 },
-  { id: 'ch24', uz: 'Barbaris choyi', ru: 'Барбарисовый чай', en: 'Barberry Tea', price: 50000 },
-  { id: 'ch25', uz: 'Koritsali choy', ru: 'Чай с корицей', en: 'Cinnamon Tea', price: 40000 }
+  { id: 'ch26', uz: 'Karak', ru: 'Карак', en: 'Karak', price: 70000, isChoynak: true },
+  { id: 'ch5', uz: 'Lavanda', ru: 'Лавандовый', en: 'Lavender', price: 60000, isChoynak: true },
+  { id: 'ch9', uz: 'Karkade', ru: 'Каркаде', en: 'Karkade', price: 50000, isChoynak: true },
+  { id: 'ch1', uz: ' Olong choyi', ru: 'Олонг Чай ', en: ' Olong Tea', price: 60000, isChoynak: true, popular: true },
+  { id: 'ch11', uz: 'Malinali', ru: 'Малиновый', en: 'Raspberry', price: 50000, isChoynak: true, popular: true },
+  { id: 'ch3', uz: 'Limon-imbir-malina', ru: 'Лимон Имбир Малина 3в1', en: 'Lemon Ginger Raspberry', price: 70000, isChoynak: true, popular: true },
+  { id: 'ch2', uz: 'Mevali miks', ru: 'Фруктовый микс', en: 'Fruit Mix', price: 60000, isChoynak: true },
+  { id: 'ch13', uz: 'Jasmin', ru: 'Жасминовый', en: 'Jasmine', price: 50000, isChoynak: true },
+  { id: 'ch6', uz: 'Rastaropsha', ru: 'Расторопша', en: 'Milk Thistle', price: 45000, isChoynak: true },
+  { id: 'ch7', uz: 'Turkcha Bardak', ru: 'Турецкий Бардак', en: 'Turkish Bardak', price: 60000, isChoynak: true },
+  { id: 'ch4', uz: 'Moychechak', ru: 'Ромашковый', en: 'Chamomile', price: 45000 },
+  { id: 'ch8', uz: 'Moxito', ru: 'Мохито', en: 'Mojito', price: 50000 },
+  { id: 'ch10', uz: 'Karal', ru: 'Королевский', en: ' Karal', price: 60000 },
+  { id: 'ch12', uz: 'Oddiy Ahmad', ru: 'Ахмад классик', en: 'Classic Ahmad', price: 20000 },
+  { id: 'ch14', uz: 'Kardamonli', ru: 'С кардамоном', en: 'Cardamom', price: 40000 },
+  { id: 'ch15', uz: "Afg'oncha", ru: 'Афганский', en: 'Afghan', price: 40000 },
+  { id: 'ch16', uz: 'Chaykoffskiy', ru: 'Чайковский', en: 'Chaykoffskiy', price: 80000, popular: true },
+  { id: 'ch17', uz: 'Sutli choy', ru: 'С молоком', en: 'Milk Tea', price: 50000 },
+  { id: 'ch18', uz: 'Pistali sutli', ru: 'Фисташковый', en: 'Pistachio Milk', price: 80000, popular: true },
+  { id: 'ch19', uz: 'Shifobaxsh', ru: 'Лечебный', en: 'Medicinal', price: 50000 },
+  { id: 'ch20', uz: 'Tinchlantiruvchi', ru: 'Успокаивающий', en: 'Calming', price: 50000 },
+  { id: 'ch21', uz: 'Zanjabilli', ru: 'Имбирный', en: 'Ginger', price: 45000 },
+  { id: 'ch22', uz: 'Mumiyoli', ru: 'С мумиё', en: 'Mumiyo', price: 50000 },
+  { id: 'ch23', uz: 'Naʼmatakli', ru: 'С шиповником', en: 'Rosehip', price: 45000 },
+  { id: 'ch24', uz: 'Zirkli (Barbaris)', ru: 'Барбарисовый', en: 'Barberry', price: 50000 },
+  // { id: 'ch25', uz: 'Dolchinli', ru: 'С корицей', en: 'Cinnamon', price: 40000 },
+  { id: 'ch27', uz: 'Daxun Pao ', ru: 'Дахун Пао ', en: 'Daxun Pao ', price: 120000 },
+  { id: 'ch28', uz: 'Yapon Imperator', ru: 'Японский Император', en: 'Japanese Emperor', price: 100000 },
+  { id: 'ch29', uz: 'Jenshin choyi', ru: 'Женщен чай ', en: 'Jenshin Tea', price: 120000 },
+  { id: 'ch30', uz: 'Karalevskiy choy', ru: 'Королевский чай ', en: 'Royal Tea', price: 70000 },
 ];
-
 export const products: Product[] = [
   // ==================== CHOYLAR ====================
   ...teaList.map(tea => ({
@@ -121,7 +164,7 @@ export const products: Product[] = [
     weight: '1 choynak', // Bu yerda hammasiga "1 choynak" yozildi
     isPopular: tea.popular || false,
   })),
-
+    
 
   // ==================== KOKTEYLLAR ====================
   {
@@ -434,6 +477,35 @@ export const products: Product[] = [
     ingredients: [], ingredientsUz: [], ingredientsRu: [],
     price: 50000,
     weight: '1L'
+  },
+  // ==================== KOMPOTLAR ====================
+{
+    id: 'kam3',
+    name: 'фирменные компоты (0.33)',
+    nameUz: 'Firmenniy Kampot (0.33)',
+    nameRu: 'Фирменные компоты (0.33)',
+    category: 'kampot',
+    image: '',
+    description: '',
+    descriptionUz: '',
+    descriptionRu: '',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 8000,
+    weight: '0.33'
+  },
+  {
+    id: 'kam4',
+    name: 'фирменные компоты (0.5)',
+    nameUz: 'Firmenniy Kampot (0.5)',
+    nameRu: 'Фирменные компоты (0.5)',
+    category: 'kampot',
+    image: '',
+    description: '',
+    descriptionUz: '',
+    descriptionRu: '',
+    ingredients: [], ingredientsUz: [], ingredientsRu: [],
+    price: 12000,
+    weight: '0.5'
   },
 
   // ==================== SOUPS ====================
@@ -766,9 +838,9 @@ export const products: Product[] = [
     // ==================== SHIRINLIKLAR (YANGI QO'SHILDI) ====================
   {
     id: 'des1',
-    name: 'Mevalik mussoviylar',
-    nameUz: 'Mevalik mussoviylar',
-    nameRu: 'фруктовые муссовые',
+    name: 'Mussoviylar',
+    nameUz: 'Mussoviylar',
+    nameRu: 'Муссовый',
     category: 'deserts',
     image: shirinlik1,
     description: '',
@@ -830,11 +902,26 @@ export const products: Product[] = [
     price: 45000,
 
   },
+  {
+    id: 'des6',
+    name: 'Медовик',
+    nameUz: 'Medovik',
+    nameRu: 'Медовик',
+    category: 'deserts',
+    image: "https://tse4.mm.bing.net/th/id/OIP.0j6omUn9GtmOgPVzxfHGbQHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    description: '',
+    descriptionUz: '',
+    descriptionRu: '',
+    ingredients: [''],
+    ingredientsUz: [''],
+    ingredientsRu: [''],
+    price: 45000,
+  },
     {
     id: 'som1',
     name: 'Yojikli somsa',
     nameUz: 'Yojikli somsa',
-    nameRu: 'Ежик самса',
+    nameRu: 'Ежиковая Самса ',
     category: 'somsalar',
     image: somsa,
     description: '.',
@@ -847,22 +934,59 @@ export const products: Product[] = [
    
   },
 
-  // Specials
+// Specials
+
   {
-    id: 'spc1',
-    name: 'Calogen Chaykoffskiy',
-    nameUz: 'Kalogen chaykoffskiy',
-    nameRu: 'Калоген Чайковский',
+    id: 'kalogen-buka',
+    name: 'Tuyoq',
+    nameUz: 'Tuyoq',
+    nameRu: 'Копыто',
+    category: 'specials',
+    image:tuyoq,
+    description: 'Kalogenli Tuyoq — Kichik (2 kishilik) va Katta (4 kishilik)',
+    descriptionUz: 'Kalogenli Tuyoq — Kichik (2 kishilik) va Katta (4 kishilik)',
+    descriptionRu: 'Копыто с коллагеном — Малое (на 2 персоны) и Большое (на 4 персоны)',
+    ingredients: ['Foot', 'Spices', 'Onion', 'Garlic'],
+    ingredientsUz: ['Tuyoq',  'Ziravorlar', 'Piyoz', 'Sarimsoq'],
+    ingredientsRu: ['Копыто', 'Специи', 'Лук', 'Чеснок'],
+    price: 220000,
+    calories: 850,
+    weight: 'Kichik: 2 kishilik | Katta: 4 kishilik',
+    isPopular: true,
+  },
+  {
+    id: 'til',
+    name: 'Тил',
+    nameUz: 'Til',
+    nameRu: 'Язык',
+    category: 'specials',
+    image: til,
+    description: 'Maxsus ziravorlar va ko‘katlar bilan tayyorlangan mol tili — 2–3 kishilik va 4 kishilik',
+    descriptionUz: 'Maxsus ziravorlar va ko‘katlar bilan tayyorlangan mol tili — 2–3 kishilik va 4 kishilik',
+    descriptionRu: 'Говяжий язык со специями и зеленью — на 2–3 персоны и на 4 персоны',
+    ingredients: ['Beef Tongue', 'Spices', 'Garlic', 'Herbs', 'Butter'],
+    ingredientsUz: ['Mol tili', 'Ziravorlar', 'Sarimsoq', 'Ko‘katlar', 'Sariyog‘'],
+    ingredientsRu: ['Говяжий язык', 'Специи', 'Чеснок', 'Зелень', 'Сливочное масло'],
+    price: 300000,
+    calories: 600,
+    weight: '2–3 kishilik / 4 kishilik',
+    isPopular: true,
+  },
+  {
+    id: 'kalogen-chaykoffskiy',
+    name: 'Калоген Чайкоффский',
+    nameUz: 'Kalogen Chaykoffskiy',
+    nameRu: 'Калоген Чайкоффский',
     category: 'specials',
     image: callogen2,
-    description: '100% natural, Aromatic and Hot taste of Chaykoffskiy meal with added collagen for skin health',
-    descriptionUz: '100% tabiiy, Chaykoffskiy taomini teri sog‘ligi uchun kollagen qo‘shilgan holda aromatik va issiq ta’mi bilan',
-    descriptionRu: '100% натуральный, ароматный и горячий вкус блюда Чайковский с добавлением коллагена для здоровья кожи',
-    ingredients: ['Lamb Meat', 'Beef', 'Bone Marrow', 'Onion', 'Garlic', 'Spices', 'Broccoli'],
-    ingredientsUz: ['Qo`y go`shti, Mol go`shti, Dumba, Ilik, Dunbul, Bolg`or qalampir, Lavr bargi, Sarimsoq, Sarimsoq piyoz, Qizil piyoz, Ziravorlar, Brokkoli.'],
-    ingredientsRu: ['Говядина, баранина, кости, лук, чеснок, специи, брокколи.'],
-    price: 70000,
-    calories: 450,
+    description: 'Salomatlik uchun tabiiy kollagen qo‘shilgan maxsus taom (Mol go‘shti yoki Qo‘y go‘shtidan tanlov)',
+    descriptionUz: 'Salomatlik uchun tabiiy kollagen qo‘shilgan maxsus taom (Mol go‘shti yoki Qo‘y go‘shtidan tanlov)',
+    descriptionRu: 'Фирменное блюдо с натуральным коллагеном (на выбор: говядина или баранина)',
+    ingredients: ['Beef or Lamb', 'Bone Marrow', 'Onion', 'Garlic', 'Spices'],
+    ingredientsUz: ['Mol go‘shti / Qo‘y go‘shti', 'Ilik', 'Piyoz', 'Sarimsoq', 'Ziravorlar'],
+    ingredientsRu: ['Говядина / Баранина', 'Кости', 'Лук', 'Чеснок', 'Специи'],
+    price: 80000,
+    calories: 455,
     weight: '500g',
     isPopular: true,
   },
@@ -878,8 +1002,8 @@ export const products: Product[] = [
   descriptionUz: "Toster nonida tushenka go'shti bilan tayyorlangan mazali sendvich.",
   descriptionRu: 'Вкусный сэндвич на тостерном хлебе с тушенкой.',
   ingredients: ['Toast Bread', 'Beef Stew (Tushenka)',],
-  ingredientsUz: ['Toster non', 'Tushenka', ],
-  ingredientsRu: ['Тостерный хлеб', 'Тушенка', ],
+  ingredientsUz: ['Tushonka, Sir, Toster Non', ],
+  ingredientsRu: ['Тушёнка, Сыр, Тостерный хлеб', ],
   price: 20000,
   calories: 420,
   weight: '220g',
@@ -887,75 +1011,40 @@ export const products: Product[] = [
   // Bread
   {
     id: 'ds1',
-    name: 'Arpa non (0.5)',
-    nameUz: 'Arpa non (0.5)',
-    nameRu: 'Ячменный хлеб (0.5)',
+    name: 'Bo`lka',
+    nameUz: 'Bo`lka',
+    nameRu: 'Буxaнка',
     category: 'bread',
-    image: 'https://tse4.mm.bing.net/th/id/OIP.ErQSXgvN1kFZzzSTn8TPgwHaE6?cb=thfvnextfalcon2&w=626&h=416&rs=1&pid=ImgDetMain&o=7&rm=3',
-    description: 'Healthy and aromatic half-sized barley bread baked until golden brown.',
-    descriptionUz: "Oltin rangga kirguncha pishirilgan, arpa unidan tayyorlangan foydali va xushbo'y yarimta non.",
-    descriptionRu: 'Полезный и ароматный ячменный хлеб (половинка), запеченный до золотистой корочки.',
+    image: 'https://tofuu.getjusto.com/orioneat-local/resized2/jsTZ3a33Zs8X3aXvG-300-x.webp',
+    description: 'Healthy and aromatic barley bread baked to a golden crust.',
+    descriptionUz: "Sog'lom va xushbo'y non oltin qobiq bilan pishirilgan.",
+    descriptionRu: 'Здоровый и ароматный хлеб, запеченный до золотистой корочки.',
     ingredients: ['Barley Flour', 'Wheat Flour', 'Water', 'Yeast', 'Salt'],
-    ingredientsUz: ['Arpa uni', 'Bug\'doy uni', 'Suv', 'Xamirturush', 'Tuz'],
-    ingredientsRu: ['Ячменная мука', 'Пшеничная мука', 'Вода', 'Дрожжи', 'Соль'],
-    price: 5000,
+    ingredientsUz: ['Un', 'Bug\'doy uni', 'Suv', 'Xamirturush', 'Tuz'],
+    ingredientsRu: ['Mука', 'Пшеничная мука', 'Вода', 'Дрожжи', 'Соль'],
+    price: 6000,
     calories: 190,
     weight: '250g',
     isPopular: true,
   },
   {
     id: 'ds2',
-    name: 'Sutli non (0.5)',
-    nameUz: 'Sutli non (0.5)',
-    nameRu: 'Молочный хлеб (0.5)',
+    name: 'Sutli non ',
+    nameUz: 'Sutli non ',
+    nameRu: 'Молочный хлеб ',
     category: 'bread',
-    image: 'https://i.pinimg.com/736x/1d/61/02/1d61020adea200dc46336914f0ba660a.jpg',
-    description: 'Soft and tender half-sized bread made with fresh milk and premium butter.',
-    descriptionUz: "Yangi sut va oliy navli sariyog' qo'shib tayyorlangan yumshoq va mayin yarimta non.",
-    descriptionRu: 'Мягкий и нежный молочный хлеб (половинка), приготовленный на свежем молоке и сливочном масле.',
+    image: 'https://tse2.mm.bing.net/th/id/OIP.Xz-eO9qUxWLhJs5dw2tFhQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+    description: 'Soft and tender milk bread made with fresh milk and premium butter.',
+    descriptionUz: "Yangi sut va oliy navli sariyog' qo'shib tayyorlangan yumshoq va mayin non.",
+    descriptionRu: 'Мягкий и нежный молочный хлеб приготовленный на свежем молоке и сливочном масле.',
     ingredients: ['Wheat Flour', 'Fresh Milk', 'Butter', 'Water', 'Yeast', 'Sugar', 'Salt'],
     ingredientsUz: ['Bug\'doy uni', 'Yangi sut', 'Sariyog\'', 'Suv', 'Xamirturush', 'Shakar', 'Tuz'],
     ingredientsRu: ['Пшеничная мука', 'Свежее молоко', 'Сливочное масло', 'Вода', 'Дрожжи', 'Сахар', 'Соль'],
-    price: 6000,
+    price: 1000,
     calories: 230,
     weight: '250g',
   },
-  {
-    id: 'ds3',
-    name: 'Arpa non (1)',
-    nameUz: 'Arpa non (1)',
-    nameRu: 'Ячменный хлеб (1)',
-    category: 'bread',
-    image: 'https://tse3.mm.bing.net/th/id/OIP.z8h-Zg5VJclQKdGsjROmuwHaE8?cb=thfvnextfalcon2&w=508&h=339&rs=1&pid=ImgDetMain&o=7&rm=3',
-    description: 'Whole traditional barley bread, high in fiber and rich in natural flavor.',
-    descriptionUz: "Kletchatkaga boy va tabiiy ta'mga ega bo'lgan butun arpa noni.",
-    descriptionRu: 'Цельный传统 ячменный хлеб, богатый клетчаткой и насыщенный натуральным вкусом.',
-    ingredients: ['Barley Flour', 'Wheat Flour', 'Water', 'Yeast', 'Salt'],
-    ingredientsUz: ['Arpa uni', 'Bug\'doy uni', 'Suv', 'Xamirturush', 'Tuz'],
-    ingredientsRu: ['Ячменная мука', 'Пшеничная мука', 'Вода', 'Дрожжи', 'Соль'],
-    price: 10000,
-    calories: 380,
-    weight: '500g',
-    isNew: true,
-  },
-  {
-    id: 'ds4',
-    name: 'Sutli non (1)',
-    nameUz: 'Sutli non (1)',
-    nameRu: 'Молочный хлеб (1)',
-    category: 'bread',
-    image: 'https://tse4.mm.bing.net/th/id/OIP.48j5tVqfSid-nNWJ5FTPwAHaHa?cb=thfvnextfalcon2&w=1024&h=1024&rs=1&pid=ImgDetMain&o=7&rm=3',
-    description: 'Full-sized premium bread baked with rich milk for an incredibly soft texture.',
-    descriptionUz: "Ajoyib darajada yumshoq tuzilishga ega bo'lishi uchun sut bilan pishirilgan butun sutli non.",
-    descriptionRu: 'Цельный молочный хлеб премиум-класса, выпеченный на жирном молоке для невероятно мягкой текстуры.',
-    ingredients: ['Wheat Flour', 'Fresh Milk', 'Butter', 'Water', 'Yeast', 'Sugar', 'Salt'],
-    ingredientsUz: ['Bug\'doy uni', 'Yangi sut', 'Sariyog\'', 'Suv', 'Xamirturush', 'Shakar', 'Tuz'],
-    ingredientsRu: ['Пшеничная мука', 'Свежее молоко', 'Сливочное масло', 'Вода', 'Дрожжи', 'Сахар', 'Соль'],
-    price: 12000,
-    calories: 460,
-    weight: '500g',
-  },
-
+  
 
 ];
 
