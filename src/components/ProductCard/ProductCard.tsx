@@ -1,11 +1,9 @@
-
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import {
   Flame,
   Sparkles,
   ArrowUpRight,
-  Utensils,
 } from 'lucide-react';
 
 interface ProductCardItem {
@@ -162,40 +160,21 @@ export default function ProductCard({ product }: ProductCardProps) {
               </span>
             </div>
 
-            <div className="flex items-center justify-between gap-1 pt-1.5 border-t border-gray-100 min-w-0">
-              <span className="text-[15px] sm:text-base font-extrabold text-[#14422B] tracking-tight whitespace-nowrap shrink-0">
+            <div className="pt-1.5 border-t border-gray-100 min-w-0">
+              <span className="text-[15px] sm:text-base font-extrabold text-[#14422B] tracking-tight whitespace-nowrap">
                 {formatPrice(product.price)}
               </span>
-
-              {product.calories && (
-                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-gray-500 bg-gray-100/90 px-2 py-0.5 rounded-md shrink-0">
-                  <Utensils size={10} className="text-gray-400" />
-                  {product.calories} kcal
-                </span>
-              )}
             </div>
           </div>
         ) : (
-          <div className="flex items-end justify-between gap-2 mt-auto pt-2.5 border-t border-gray-100 min-w-0">
-            <div className="min-w-0">
-              <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-0.5">
-                {language === 'uz' ? 'Narxi' : 'Цена'}
-              </p>
+          <div className="mt-auto pt-2.5 border-t border-gray-100 min-w-0">
+            <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-0.5">
+              {language === 'uz' ? 'Narxi' : 'Цена'}
+            </p>
 
-              <span className="text-base font-extrabold text-[#14422B] tracking-tight whitespace-nowrap">
-                {formatPrice(product.price)}
-              </span>
-            </div>
-
-            {product.calories && (
-              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#F3F7F4] border border-emerald-950/6 shrink-0">
-                <Utensils size={11} className="text-[#1F5F3F]/75" />
-
-                <span className="text-[10px] text-gray-600 font-semibold">
-                  {product.calories} kcal
-                </span>
-              </div>
-            )}
+            <span className="text-base font-extrabold text-[#14422B] tracking-tight whitespace-nowrap">
+              {formatPrice(product.price)}
+            </span>
           </div>
         )}
       </div>
