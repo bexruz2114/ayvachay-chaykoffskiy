@@ -1,6 +1,12 @@
+
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
-import { Flame, Sparkles, Users, ArrowUpRight, Utensils } from 'lucide-react';
+import {
+  Flame,
+  Sparkles,
+  ArrowUpRight,
+  Utensils,
+} from 'lucide-react';
 
 interface ProductCardItem {
   id: string;
@@ -26,7 +32,9 @@ export default function ProductCard({ product }: ProductCardProps) {
     product.id === 'kalogen-buka-folga' ||
     product.id === 'tuyoq';
 
-  const isTil = product.id === 'til' || product.id === 'folgalangan-til';
+  const isTil =
+    product.id === 'til' ||
+    product.id === 'folgalangan-til';
 
   const isChaykoffskiy = product.id === 'kalogen-chaykoffskiy';
 
@@ -34,35 +42,27 @@ export default function ProductCard({ product }: ProductCardProps) {
     new Intl.NumberFormat('uz-UZ').format(price) +
     (language === 'uz' ? " so'm" : ' сум');
 
+  // PORTION
   const portion = (
     title: string,
-    subtitle: string,
     price: number,
     featured = false
   ) => (
     <div
       className={`flex items-center justify-between gap-2.5 px-3 py-2 rounded-xl border transition-all duration-200 ${
         featured
-          ? 'bg-[#1F5F3F]/[0.08] border-[#1F5F3F]/25'
+          ? 'bg-[#EAF3ED] border-[#1F5F3F]/25'
           : 'bg-[#F7FAF8] border-emerald-950/8'
       }`}
     >
-      <div className="min-w-0">
-        <p
-          className={`text-xs font-bold truncate ${
-            featured ? 'text-[#14422B]' : 'text-gray-800'
-          }`}
-        >
-          {title}
-        </p>
-        <p className="flex items-center gap-1 text-[10px] text-gray-500 mt-0.5 truncate">
-          <Users
-            size={11}
-            className={featured ? 'text-[#D97706]' : 'text-[#1F5F3F]/75'}
-          />
-          <span>{subtitle}</span>
-        </p>
-      </div>
+      <p
+        className={`text-xs font-bold ${
+          featured ? 'text-[#14422B]' : 'text-gray-800'
+        }`}
+      >
+        {title}
+      </p>
+
       <span
         className={`text-xs font-extrabold whitespace-nowrap ${
           featured ? 'text-[#14422B]' : 'text-gray-900'
@@ -117,6 +117,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* TITLE */}
         <div className="flex items-start gap-2.5 mb-3">
           <span className="w-1 h-5 rounded-full bg-gradient-to-b from-[#1F5F3F] to-amber-500 shrink-0 mt-0.5 transition-all duration-300 group-hover:h-6 group-active:h-6" />
+
           <h3 className="text-[14.5px] sm:text-[15px] font-extrabold text-gray-900 leading-snug line-clamp-2 transition-colors duration-200 group-hover:text-[#14422B] group-active:text-[#14422B]">
             {name}
           </h3>
@@ -127,12 +128,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="space-y-2 mt-auto">
             {portion(
               language === 'uz' ? 'Kichik' : 'Маленькая',
-              language === 'uz' ? '2 kishilik' : '2 персоны',
               160000
             )}
+
             {portion(
               language === 'uz' ? 'Katta' : 'Большая',
-              language === 'uz' ? '4 kishilik' : '4 персоны',
               220000,
               true
             )}
@@ -140,13 +140,12 @@ export default function ProductCard({ product }: ProductCardProps) {
         ) : isTil ? (
           <div className="space-y-2 mt-auto">
             {portion(
-              language === 'uz' ? '2–3 kishilik' : '2–3 персоны',
-              language === 'uz' ? 'Oddiy porsiya' : 'Обычная порция',
+              language === 'uz' ? 'Kichik' : 'Маленькая',
               300000
             )}
+
             {portion(
-              language === 'uz' ? '4 kishilik' : '4 персоны',
-              language === 'uz' ? 'Katta porsiya' : 'Большая порция',
+              language === 'uz' ? 'Katta' : 'Большая',
               350000,
               true
             )}
@@ -157,6 +156,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               <span className="px-2.5 py-1 rounded-lg bg-emerald-950/[0.06] border border-emerald-900/12 text-[10px] font-bold text-[#14422B]">
                 {language === 'uz' ? "Mol go'shti" : 'Говядина'}
               </span>
+
               <span className="px-2.5 py-1 rounded-lg bg-amber-500/12 border border-amber-500/25 text-[10px] font-bold text-amber-800">
                 {language === 'uz' ? "Qo'y go'shti" : 'Баранина'}
               </span>
@@ -166,6 +166,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               <span className="text-base font-extrabold text-[#14422B] tracking-tight">
                 {formatPrice(product.price)}
               </span>
+
               {product.calories && (
                 <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-gray-500 bg-gray-100/90 px-2 py-0.5 rounded-md">
                   <Utensils size={10} className="text-gray-400" />
@@ -180,6 +181,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-0.5">
                 {language === 'uz' ? 'Narxi' : 'Цена'}
               </p>
+
               <span className="text-base font-extrabold text-[#14422B] tracking-tight">
                 {formatPrice(product.price)}
               </span>
@@ -188,6 +190,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.calories && (
               <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#F3F7F4] border border-emerald-950/6">
                 <Utensils size={11} className="text-[#1F5F3F]/75" />
+
                 <span className="text-[10px] text-gray-600 font-semibold">
                   {product.calories} kcal
                 </span>
