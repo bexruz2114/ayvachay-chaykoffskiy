@@ -49,14 +49,14 @@ export default function ProductCard({ product }: ProductCardProps) {
     featured = false
   ) => (
     <div
-      className={`flex items-center justify-between gap-2.5 px-3 py-2 rounded-xl border transition-all duration-200 ${
+      className={`flex items-center justify-between gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl border min-w-0 ${
         featured
           ? 'bg-[#EAF3ED] border-[#1F5F3F]/25'
           : 'bg-[#F7FAF8] border-emerald-950/8'
       }`}
     >
       <p
-        className={`text-xs font-bold ${
+        className={`text-xs font-bold shrink-0 ${
           featured ? 'text-[#14422B]' : 'text-gray-800'
         }`}
       >
@@ -64,7 +64,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </p>
 
       <span
-        className={`text-xs font-extrabold whitespace-nowrap ${
+        className={`text-[10px] sm:text-xs font-extrabold tracking-tight whitespace-nowrap shrink-0 ${
           featured ? 'text-[#14422B]' : 'text-gray-900'
         }`}
       >
@@ -76,7 +76,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       to={`/product/${product.id}`}
-      className="group relative flex flex-col bg-white rounded-[24px] overflow-hidden border border-emerald-950/10 shadow-[0_8px_26px_-10px_rgba(15,23,42,0.1)] hover:shadow-[0_22px_45px_-14px_rgba(20,66,43,0.24)] hover:border-[#1F5F3F]/30 hover:-translate-y-1.5 active:scale-[0.985] active:border-[#1F5F3F]/40 transition-all duration-300 ease-out animate-fade-in"
+      className="group relative flex flex-col min-w-0 bg-white rounded-[24px] overflow-hidden border border-emerald-950/10 shadow-[0_8px_26px_-10px_rgba(15,23,42,0.1)] hover:shadow-[0_22px_45px_-14px_rgba(20,66,43,0.24)] hover:border-[#1F5F3F]/30 hover:-translate-y-1.5 active:scale-[0.985] active:border-[#1F5F3F]/40 transition-all duration-300 ease-out animate-fade-in"
     >
       {/* IMAGE */}
       <div className="relative aspect-[4/3] overflow-hidden bg-[#EDF2EE]">
@@ -113,7 +113,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* CONTENT */}
-      <div className="p-4 flex-1 flex flex-col">
+      <div className="p-3 sm:p-4 flex-1 flex flex-col min-w-0">
         {/* TITLE */}
         <div className="flex items-start gap-2.5 mb-3">
           <span className="w-1 h-5 rounded-full bg-gradient-to-b from-[#1F5F3F] to-amber-500 shrink-0 mt-0.5 transition-all duration-300 group-hover:h-6 group-active:h-6" />
@@ -125,7 +125,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* SPECIAL PORTIONS */}
         {isKalogenBuka ? (
-          <div className="space-y-2 mt-auto">
+          <div className="space-y-2 mt-auto min-w-0">
             {portion(
               language === 'uz' ? 'Kichik' : 'Маленькая',
               160000
@@ -138,7 +138,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             )}
           </div>
         ) : isTil ? (
-          <div className="space-y-2 mt-auto">
+          <div className="space-y-2 mt-auto min-w-0">
             {portion(
               language === 'uz' ? 'Kichik' : 'Маленькая',
               300000
@@ -151,7 +151,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             )}
           </div>
         ) : isChaykoffskiy ? (
-          <div className="space-y-3 mt-auto pt-1">
+          <div className="space-y-3 mt-auto pt-1 min-w-0">
             <div className="flex flex-wrap gap-1.5">
               <span className="px-2.5 py-1 rounded-lg bg-emerald-950/[0.06] border border-emerald-900/12 text-[10px] font-bold text-[#14422B]">
                 {language === 'uz' ? "Mol go'shti" : 'Говядина'}
@@ -162,13 +162,13 @@ export default function ProductCard({ product }: ProductCardProps) {
               </span>
             </div>
 
-            <div className="flex items-baseline justify-between pt-1.5 border-t border-gray-100">
-              <span className="text-base font-extrabold text-[#14422B] tracking-tight">
+            <div className="flex items-center justify-between gap-1 pt-1.5 border-t border-gray-100 min-w-0">
+              <span className="text-[15px] sm:text-base font-extrabold text-[#14422B] tracking-tight whitespace-nowrap shrink-0">
                 {formatPrice(product.price)}
               </span>
 
               {product.calories && (
-                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-gray-500 bg-gray-100/90 px-2 py-0.5 rounded-md">
+                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-gray-500 bg-gray-100/90 px-2 py-0.5 rounded-md shrink-0">
                   <Utensils size={10} className="text-gray-400" />
                   {product.calories} kcal
                 </span>
@@ -176,19 +176,19 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           </div>
         ) : (
-          <div className="flex items-end justify-between mt-auto pt-2.5 border-t border-gray-100">
-            <div>
+          <div className="flex items-end justify-between gap-2 mt-auto pt-2.5 border-t border-gray-100 min-w-0">
+            <div className="min-w-0">
               <p className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-0.5">
                 {language === 'uz' ? 'Narxi' : 'Цена'}
               </p>
 
-              <span className="text-base font-extrabold text-[#14422B] tracking-tight">
+              <span className="text-base font-extrabold text-[#14422B] tracking-tight whitespace-nowrap">
                 {formatPrice(product.price)}
               </span>
             </div>
 
             {product.calories && (
-              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#F3F7F4] border border-emerald-950/6">
+              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#F3F7F4] border border-emerald-950/6 shrink-0">
                 <Utensils size={11} className="text-[#1F5F3F]/75" />
 
                 <span className="text-[10px] text-gray-600 font-semibold">
