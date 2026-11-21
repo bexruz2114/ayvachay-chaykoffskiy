@@ -59,14 +59,6 @@ export interface Product {
   }[];
   prices?: { weight: string; price: number }[]; 
 }
-export interface ProductPortion {
-  id: string;
-  nameUz: string;
-  nameRu: string;
-  personsUz: string;
-  personsRu: string;
-  price: number;
-}
 
 export interface Category {
   id: string;
@@ -910,20 +902,20 @@ export const products: Product[] = [
     price: 45000,
 
   },
-  {
+{
     id: 'des6',
     name: 'Медовик',
     nameUz: 'Medovik',
     nameRu: 'Медовик',
     category: 'deserts',
-    image: "https://tse4.mm.bing.net/th/id/OIP.0j6omUn9GtmOgPVzxfHGbQHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    image: 'https://tse4.mm.bing.net/th/id/OIP.0j6omUn9GtmOgPVzxfHGbQHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
     description: '',
     descriptionUz: '',
     descriptionRu: '',
     ingredients: [''],
     ingredientsUz: [''],
     ingredientsRu: [''],
-    price: 45000,
+    price: 30000,
   },
     {
     id: 'som1',
@@ -943,40 +935,23 @@ export const products: Product[] = [
   },
 
 // Specials
-{
+
+  {
     id: 'kalogen-buka',
     name: 'Tuyoq',
     nameUz: 'Tuyoq',
     nameRu: 'Копыто',
     category: 'specials',
-    image: tuyoq,
+    image:tuyoq,
     description: 'Kalogenli Tuyoq — Kichik (2 kishilik) va Katta (4 kishilik)',
     descriptionUz: 'Kalogenli Tuyoq — Kichik (2 kishilik) va Katta (4 kishilik)',
     descriptionRu: 'Копыто с коллагеном — Малое (на 2 персоны) и Большое (на 4 персоны)',
     ingredients: ['Foot', 'Spices', 'Onion', 'Garlic'],
-    ingredientsUz: ['Tuyoq', 'Ziravorlar', 'Piyoz', 'Sarimsoq'],
+    ingredientsUz: ['Tuyoq',  'Ziravorlar', 'Piyoz', 'Sarimsoq'],
     ingredientsRu: ['Копыто', 'Специи', 'Лук', 'Чеснок'],
-    price: 160000,
+    price: 220000,
     calories: 850,
-    weight: 'kichik | katta',
-    portions: [
-      {
-        id: 'small',
-        nameUz: 'Kichik',
-        nameRu: 'Маленькая',
-        personsUz: '2 kishilik',
-        personsRu: '2 персоны',
-        price: 160000,
-      },
-      {
-        id: 'large',
-        nameUz: 'Katta',
-        nameRu: 'Большая',
-        personsUz: '4 kishilik',
-        personsRu: '4 персоны',
-        price: 220000,
-      },
-    ],
+    weight: 'kichik| katta',
     isPopular: true,
   },
   {
@@ -986,33 +961,15 @@ export const products: Product[] = [
     nameRu: 'Язык',
     category: 'specials',
     image: til,
-    description: 'Maxsus ziravorlar va ko‘katlar bilan tayyorlangan mol tili — Kichik (2–3 kishilik) va Katta (4 kishilik)',
-    descriptionUz: 'Maxsus ziravorlar va ko‘katlar bilan tayyorlangan mol tili — Kichik (2–3 kishilik) va Katta (4 kishilik)',
-    descriptionRu: 'Говяжий язык со специями и зеленью — Малая (на 2–3 персоны) и Большая (на 4 персоны)',
+    description: 'Maxsus ziravorlar va ko‘katlar bilan tayyorlangan mol tili — 2–3 kishilik va 4 kishilik',
+    descriptionUz: 'Maxsus ziravorlar va ko‘katlar bilan tayyorlangan mol tili — 2–3 kishilik va 4 kishilik',
+    descriptionRu: 'Говяжий язык со специями и зеленью — на 2–3 персоны и на 4 персоны',
     ingredients: ['Beef Tongue', 'Spices', 'Garlic', 'Herbs', 'Butter'],
     ingredientsUz: ['Mol tili', 'Ziravorlar', 'Sarimsoq', 'Ko‘katlar', 'Sariyog‘'],
     ingredientsRu: ['Говяжий язык', 'Специи', 'Чеснок', 'Зелень', 'Сливочное масло'],
     price: 300000,
     calories: 600,
-    weight: 'kichik | katta',
-    portions: [
-      {
-        id: 'small',
-        nameUz: 'Kichik',
-        nameRu: 'Маленькая',
-        personsUz: '2–3 kishilik',
-        personsRu: '2–3 персоны',
-        price: 300000,
-      },
-      {
-        id: 'large',
-        nameUz: 'Katta',
-        nameRu: 'Большая',
-        personsUz: '4 kishilik',
-        personsRu: '4 персоны',
-        price: 350000,
-      },
-    ],
+    weight: 'katta | kichik',
     isPopular: true,
   },
   {
